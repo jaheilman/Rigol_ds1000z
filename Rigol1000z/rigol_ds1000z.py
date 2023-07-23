@@ -959,7 +959,6 @@ class _Rigol_ds1000z_Measure(Rigol_ds1000z):
         self.visa_write(f':MEAS:ITEM {item}')
         return
 
-#  :MEASure:ITEM
 
 
 
@@ -982,8 +981,6 @@ class noclassyet:
     def get_channels_enabled(self):
         return [c.enabled() for c in self._channels]
 
-    def selected_channel(self):
-        return self.visa_ask(':MEAS:SOUR?')
     
 
 
@@ -1025,22 +1022,6 @@ class _Rigol1000zChannel:
         r = self.visa_read()
         return r
 
-    def get_voltage_rms_V(self):
-        assert 1 <= self._channel <= 4, 'Invalid channel.'
-        return self._osc.ask(f':MEAS:ITEM? VRMS,CHAN{self._channel}')
-
-    def select_channel(self):
-        self._osc.write(f':MEAS:SOUR CHAN{self._channel}')
-        return self._osc.selected_channel()
-
-    def get_coupling(self):
-        return self.visa_ask(':coup?')
-
-    def set_coupling(self, coupling):
-        coupling = coupling.upper()
-        assert coupling in ('AC', 'DC', 'GND')
-        self.visa_write(':coup %s' % coupling)
-        return self.get_coupling()
 
     def enable(self):
         self.visa_write(':disp 1' % self._channel)
