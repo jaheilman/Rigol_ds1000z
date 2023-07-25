@@ -4,39 +4,13 @@ import tqdm as _tqdm
 import pyvisa as _visa
 from enum import Enum
 
-# class Rigol_visa:
-#     def __init__(self, visa_resource):
-#         self.visa_resource = visa_resource
-        
-#     def visa_write(self, cmd):
-#         self.visa_resource.write(cmd)
-
-#     def visa_read(self):
-#         return self.visa_resource.read().strip()
-
-#     def visa_read_raw(self, num_bytes=-1):
-#         return self.visa_resource.read_raw(num_bytes)
-
-#     def visa_ask(self, cmd):
-#         return self.visa_resource.query(cmd)
-
-#     def visa_ask_raw(self, cmd, num_bytes=-1):
-#         self.visa_write(cmd)
-#         return self.visa_read_raw(num_bytes)
 
 class Rigol_ds1000z():
     '''
     Rigol DS1000z series oscilloscope driver.
 
-    Channels 1 through 4 (or 2 depending on the oscilloscope model) are accessed
-    using `[channel_number]`.  e.g. osc[2] for channel 2.  Channel 1 corresponds
-    to index 1 (not 0).
-
     Attributes:
-        trigger (`_Rigol1000zTrigger`): Trigger object containing functions
-            related to the oscilloscope trigger.
-        timebase (`_Rigol1000zTimebase`): Timebase object containing functions
-            related to the oscilloscope timebase.
+
     '''
 
     def __init__(self, visa_resource):
@@ -45,7 +19,7 @@ class Rigol_ds1000z():
         # self._channels = [_Rigol1000zChannel(c, self) for c in range(1,5)]
         # self.trigger = _Rigol1000zTrigger(self)
         # self.timebase = _Rigol1000zTimebase(self)
-        self.acquire = _Rigol_ds1000z_Acquire(self)
+        # self.acquire = _Rigol_ds1000z_Acquire()
 
     def __getitem__(self, i):
         assert 1 <= i <= 4, 'Not a valid channel.'
@@ -82,7 +56,7 @@ class Rigol_ds1000z():
     def stop(self):
         self.visa_write(':stop')
 
-    def single_shot(self):
+    def single(self):
         self.visa_write(':single')
 
     def force(self):
@@ -183,7 +157,7 @@ class Rigol_ds1000z():
     
 
     
-class _Rigol_ds1000z_Acquire:
+class _Rigol_ds1000z_Acquire(Rigol_ds1000z):
     @property
     def averaging(self):
         '''
@@ -412,7 +386,7 @@ class _Rigol_ds1000z_Channel(Rigol_ds1000z):
         return self.visa_ask(f':CHAN{chan}:INVert?')
     @invert.setter
     def invert(self, chan:int, invert_on:bool):
-        inv_chan = 1 if inv else 0
+        inv_chan = 1 if invert_on else 0
         self.visa_write(f':CHAN{chan}:INVert {inv_chan}')
         return
     
@@ -1220,3 +1194,11 @@ class _Rigol1000zTimebase:
     def set_timebase_offset_s(self, offset):
         self.visa_write(':offs %.4e' % -offset)
         return self.get_timebase_offset_s()
+
+
+if __name__ == "__main__":
+    rm = _visa.ResourceManager()
+    print(rm.list_resources())
+    visa_resource = rm.open_resource(rm.list_resources()[0])
+    scope = Rigol_ds1000z(visa_resource)
+    print(scope.idn())
