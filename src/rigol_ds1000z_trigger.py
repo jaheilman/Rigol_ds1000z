@@ -154,11 +154,194 @@ class _Rigol1000zTrigger:
         self.visa_write(f':TRIGger:EDGe:LEVel {level}')
         return
     
+    @property
+    def pulse_source(self) -> str:
+        '''
+        Set or query the trigger source in pulse width trigger
 
+        <source> Discrete
+            {D0|D1|D2|D3|D4|D5|D6|D7|D8|
+            D9|D10|D11|D12|D13|D14|D15|
+            CHANnel1|CHANnel2|CHANnel3|CHANnel4}
+        '''
+        return self.visa_ask(':TRIGger:PULSe:SOURce?')
+    @pulse_source.setter
+    def pulse_source(self, source:str):
+        self.visa_write(f':TRIGger:PULSe:SOURce {source}')
+        return
 
-#  :TRIGger:PULSe:SOURce
-#  :TRIGger:PULSe:WHEN
-#  :TRIGger:PULSe:WIDTh
+    @property
+    def pulse_when(self) -> str:
+        '''
+        Set or query the trigger condition in pulse width trigger
+
+        <when> Discrete {PGReater|PLESs|NGReater|
+                        NLESs|PGLess|NGLess} 
+             default = PGReater
+        '''
+        return float(self.visa_ask(':TRIGger:PULSe:WHEN?'))
+    @pulse_when.setter
+    def pulse_when(self, when:str):
+        self.visa_write(f':TRIGger:PULSe:WHEN {when}')
+        return
+
+    @property
+    def pulse_width(self) -> float:
+        '''
+        Set or query the pulse width in pulse width trigger. 
+        The default unit is s
+
+        <width> Real 8ns to 10s PGReater, NGReater: 1μs
+                                      PLESs, NLESs: 2μs
+        '''
+        return float(self.visa_ask(':TRIGger:PULSe:WIDTh?'))
+    @pulse_width.setter
+    def pulse_width(self, width:float):
+        self.visa_write(f':TRIGger:PULSe:WIDTh {width}')
+        return
+
 #  :TRIGger:PULSe:UWIDth
 #  :TRIGger:PULSe:LWIDth
-#  :TRIGger:PULSe:LEVe
+
+    @property
+    def pulse_level(self) -> float:
+        '''
+        Set or query the trigger level in pulse width trigger.
+        The unit is the same as the current amplitude unit
+
+        <level> Real (-5 x VerticalScale - OFFSet) to
+                     ( 5 x VerticalScale - OFFSet) 
+        '''
+        return float(self.visa_ask(':TRIGger:PULSe:LEVEl?'))
+    @pulse_level.setter
+    def pulse_level(self, level:float):
+        self.visa_write(f':TRIGger:PULSe:LEVEl {level}')
+        return
+
+
+# TODO: TRIGger:SLOPe
+# Command List:
+#  :TRIGger:SLOPe:SOURce
+#  :TRIGger:SLOPe:WHEN
+#  :TRIGger:SLOPe:TIME
+#  :TRIGger:SLOPe:TUPPer
+#  :TRIGger:SLOPe:TLOWer
+#  :TRIGger:SLOPe:WINDow
+#  :TRIGger:SLOPe:ALEVel
+#  :TRIGger:SLOPe:BLEVe
+
+# TODO:  TRIGger:VIDeo
+# Command List:
+#  :TRIGger:VIDeo:SOURce
+#  :TRIGger:VIDeo:POLarity
+#  :TRIGger:VIDeo:MODE
+#  :TRIGger:VIDeo:LINE
+#  :TRIGger:VIDeo:STANdard
+#  :TRIGger:VIDeo:LEVel
+
+# TODO :TRIGger:PATTern
+# Command List:
+#  :TRIGger:PATTern:PATTern
+#  :TRIGger:PATTern:LEVel
+
+# TODO :TRIGger:DURATion
+# Command List:
+#  :TRIGger:DURATion:SOURce
+#  :TRIGger:DURATion:TYPe
+#  :TRIGger:DURATion:WHEN
+#  :TRIGger:DURATion:TUPPer
+#  :TRIGger:DURATion:TLOWer
+
+
+# TODO :TRIGger:TIMeout
+# Command List:
+#  :TRIGger:TIMeout:SOURce
+#  :TRIGger:TIMeout:SLOPe
+#  :TRIGger:TIMeout:TIMe
+
+# TODO TRIGger:RUNT
+# Command List:
+#  :TRIGger:RUNT:SOURce
+#  :TRIGger:RUNT:POLarity
+#  :TRIGger:RUNT:WHEN
+#  :TRIGger:RUNT:WUPPer
+#  :TRIGger:RUNT:WLOWer
+#  :TRIGger:RUNT:ALEVel
+#  :TRIGger:RUNT:BLEVel
+
+# TODO TRIGger:WINDows
+# Command List:
+#  :TRIGger:WINDows:SOURce
+#  :TRIGger:WINDows:SLOPe
+#  :TRIGger:WINDows:POSition
+#  :TRIGger:WINDows:TIMe
+#  :TRIGger:WINDows:ALEVel
+#  :TRIGger:WINDows:BLEVe
+
+# TODO TRIGger:DELay
+# Command List:
+#  :TRIGger:DELay:SA
+#  :TRIGger:DELay:SLOPA
+#  :TRIGger:DELay:SB
+#  :TRIGger:DELay:SLOPB
+#  :TRIGger:DELay:TYPe
+#  :TRIGger:DELay:TUPPer
+#  :TRIGger:DELay:TLOWer
+
+# TODO TRIGger:SHOLd
+# Command List:
+#  :TRIGger:SHOLd:DSrc
+#  :TRIGger:SHOLd:CSrc
+#  :TRIGger:SHOLd:SLOPe
+#  :TRIGger:SHOLd:PATTern
+#  :TRIGger:SHOLd:TYPe
+#  :TRIGger:SHOLd:STIMe
+#  :TRIGger:SHOLd:HTIMe
+
+# TODO TRIGger:NEDGe
+# Command List:
+#  :TRIGger:NEDGe:SOURce
+#  :TRIGger:NEDGe:SLOPe
+#  :TRIGger:NEDGe:IDLE
+#  :TRIGger:NEDGe:EDGE
+#  :TRIGger:NEDGe:LEVel
+
+# TODO TRIGger:RS232
+# Command List:
+#  :TRIGger:RS232:SOURce
+#  :TRIGger:RS232:WHEN
+#  :TRIGger:RS232:PARity
+#  :TRIGger:RS232:STOP
+#  :TRIGger:RS232:DATA
+#  :TRIGger:RS232:WIDTh
+#  :TRIGger:RS232:BAUD
+#  :TRIGger:RS232:BUSer
+#  :TRIGger:RS232:LEVel
+
+# TODO :TRIGger:IIC
+# Command List:
+#  :TRIGger:IIC:SCL
+#  :TRIGger:IIC:SDA
+#  :TRIGger:IIC:WHEN
+#  :TRIGger:IIC:AWIDth
+#  :TRIGger:IIC:ADDRess
+#  :TRIGger:IIC:DIRection
+#  :TRIGger:IIC:DATA
+#  :TRIGger:IIC:CLEVel
+#  :TRIGger:IIC:DLEVel
+
+# TODO TRIGger:SPI
+# Command List:
+#  :TRIGger:SPI:SCL
+#  :TRIGger:SPI:SDA
+#  :TRIGger:SPI:WHEN
+#  :TRIGger:SPI:WIDTh
+#  :TRIGger:SPI:DATA
+#  :TRIGger:SPI:TIMeout
+#  :TRIGger:SPI:SLOPe
+#  :TRIGger:SPI:CLEVel
+#  :TRIGger:SPI:DLEVel
+#  :TRIGger:SPI:SLEVel
+#  :TRIGger:SPI:MODE
+#  :TRIGger:SPI:CS
+
