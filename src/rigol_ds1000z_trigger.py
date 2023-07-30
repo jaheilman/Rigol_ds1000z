@@ -1,6 +1,6 @@
 from rigol_visa import Rigol_visa
 
-class _Rigol1000zTrigger:
+class Rigol_ds1000z_Trigger:
     '''
     Handles the trigger configuration.
     '''

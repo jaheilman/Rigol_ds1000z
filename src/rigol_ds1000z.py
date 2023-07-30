@@ -1,6 +1,8 @@
 from rigol_visa import Rigol_visa
 from rigol_ds1000z_acquire import Rigol_ds1000z_Acquire
 from rigol_ds1000z_channel import Rigol_ds1000z_Channel
+from rigol_ds1000z_measure import Rigol_ds1000z_Measure
+from rigol_ds1000z_trigger import Rigol_ds1000z_Trigger
 
 class Rigol_ds1000z:
     '''
@@ -15,18 +17,16 @@ class Rigol_ds1000z:
         self.num_channels = 4
         self.acquire = Rigol_ds1000z_Acquire(visa_resource)
         self.channel = [Rigol_ds1000z_Channel(c, self) for c in range(1, self.num_channels+1)]
+        self.measure = Rigol_ds1000z_Measure(visa_resource)
 
+       
 
-    # self.trigger = _Rigol1000zTrigger(self)
-    # self.timebase = _Rigol1000zTimebase(self)
-        
+    def __getitem__(self, i):
+        assert 1 <= i <= 4, 'Not a valid channel.'
+        return self._channels[i-1]
 
-    # def __getitem__(self, i):
-    #     assert 1 <= i <= 4, 'Not a valid channel.'
-    #     return self._channels[i-1]
-
-    # def __len__(self):
-    #     return len(self._channels)
+    def __len__(self):
+        return len(self._channels)
 
     def autoscale(self):
         self.visa.write(':autoscale') 

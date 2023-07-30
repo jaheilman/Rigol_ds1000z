@@ -1,11 +1,12 @@
 from rigol_visa import Rigol_visa
+import rigol_ds1000z_enums as enm
+from typing import List
 
 class Rigol_ds1000z_Measure():
     def __init__(self, visa_resource):
         self.visa_resource = visa_resource
         self.visa = Rigol_visa(visa_resource)
     
-
     @property
     def source(self) -> str:
         '''
@@ -17,8 +18,9 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.ask(f':MEAS:SOURce?')
     @source.setter
-    def source(self, source:str):
-        self.visa.write(f':MEAS:SOURce {source}')
+    def source(self, source:enm.MeasureSource):
+        s = source.value
+        self.visa.write(f':MEAS:SOURce {s}')
         return
 
     @property
@@ -27,13 +29,14 @@ class Rigol_ds1000z_Measure():
         Set or query the source of the frequency counter, or disable the frequency counter. 
 
         <source> {D0|D1|D2|D3|D4|D5|D6|D7|D8|
-                D9|D10|D11|D12|D13|D14|D15|
-                CHANnel1|CHANnel2|CHANnel3|CHANnel4|OFF}
+                  D9|D10|D11|D12|D13|D14|D15|
+                  CHANnel1|CHANnel2|CHANnel3|CHANnel4|OFF}
         '''
         return self.visa.ask(f':MEAS:COUNter:SOURce?')
     @source.setter
-    def source(self, source:str):
-        self.visa.write(f':MEAS:COUNter:SOURce {source}')
+    def source(self, source:enm.MeasureSource):
+        s = source.value
+        self.visa.write(f':MEAS:COUNter:SOURce {s}')
         return
 
     @property
@@ -47,7 +50,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.ask(f':MEAS:COUNter:VALue?')
     
-    def clear(self, item:str):
+    def clear(self, item:enm.MeasureItems):
         '''
         Clear one or all of the last five measurement items enabled
         <item> {ITEM1|ITEM2|ITEM3|ITEM4|ITEM5|ALL}
@@ -55,7 +58,7 @@ class Rigol_ds1000z_Measure():
         self.visa.write(f':MEAS:CLEar {item}')
         return
     
-    def clear(self, item:str):
+    def clear(self, item:enm.MeasureItems):
         '''
         Recover the measurement item which has been cleared.
         <item> {ITEM1|ITEM2|ITEM3|ITEM4|ITEM5|ALL}
@@ -99,7 +102,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.ask(f':MEAS:AMSource?')
     @amsource.setter
-    def amsource(self, sources:list):
+    def amsource(self, sources:List[enm.AnalogChannels]):
         src_list = ''
         for source in sources:
             src_list += source + ','
@@ -180,8 +183,9 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.ask(f':MEAS:SETup:PSA?')
     @setup_psa.setter
-    def setup_psa(self, source:str):
-        self.visa.write(f':MEAS:SETup:PSA {source}')
+    def setup_psa(self, source:enm.MeasureSource):
+        s = source.value
+        self.visa.write(f':MEAS:SETup:PSA {s}')
         return
 
     @property
@@ -196,8 +200,9 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.ask(f':MEAS:SETup:PSB?')
     @setup_psb.setter
-    def setup_psb(self, source:str):
-        self.visa.write(f':MEAS:SETup:PSB {source}')
+    def setup_psb(self, source:enm.MeasureSource):
+        s = source.value
+        self.visa.write(f':MEAS:SETup:PSB {s}')
         return
 
     @property
@@ -212,8 +217,9 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.ask(f':MEAS:SETup:DSA?')
     @setup_dsa.setter
-    def setup_dsa(self, source:str):
-        self.visa.write(f':MEAS:SETup:DSA {source}')
+    def setup_dsa(self, source:enm.MeasureSource):
+        s = source.value
+        self.visa.write(f':MEAS:SETup:DSA {s}')
         return
 
     @property
@@ -321,7 +327,5 @@ class Rigol_ds1000z_Measure():
                 item += "," + source
         self.visa.write(f':MEAS:ITEM {item}')
         return
-
-
 
 
