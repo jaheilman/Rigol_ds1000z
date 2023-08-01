@@ -14,19 +14,19 @@ class Rigol_ds1000z:
     def __init__(self, visa_resource):
         self.visa_resource = visa_resource
         self.visa = Rigol_visa(visa_resource)
-        self.num_channels = 4
+        self._num_channels = 4
         self.acquire = Rigol_ds1000z_Acquire(visa_resource)
-        self.channel = [Rigol_ds1000z_Channel(c, self) for c in range(1, self.num_channels+1)]
+        self.channel = [Rigol_ds1000z_Channel(c, self) for c in range(1, self._num_channels+1)]
         self.measure = Rigol_ds1000z_Measure(visa_resource)
 
        
 
     def __getitem__(self, i):
         assert 1 <= i <= 4, 'Not a valid channel.'
-        return self._channels[i-1]
+        return self._num_channels[i-1]
 
     def __len__(self):
-        return len(self._channels)
+        return len(self._num_channels)
 
     def autoscale(self):
         self.visa.write(':autoscale') 

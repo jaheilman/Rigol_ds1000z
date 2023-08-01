@@ -1,7 +1,7 @@
 from enum import Enum, auto
 from strenum import StrEnum
 
-class MeasureSource(StrEnum):
+class MeasureSources(StrEnum):
     CHAN1 = auto()
     CHAN2 = auto()
     CHAN3 = auto()
@@ -32,7 +32,14 @@ class AnalogChannels(StrEnum):
     MATH = auto()
 
 
-def MeasureItems(StrEnum):
+class MeasureStatisticsDisplay(StrEnum):
+    difference = auto()
+    extremum = auto()
+    DIFF = auto()
+    EXTR = auto()
+
+## These from :MEAS:ADIS
+class MeasureItems(StrEnum):
     ITEM1 = auto()
     ITEM2 = auto()
     ITEM3 = auto()
@@ -40,8 +47,42 @@ def MeasureItems(StrEnum):
     ITEM5 = auto()
     ALL = auto()
 
-def MeasureStatisticsDisplay(StrEnum):
-    difference = auto()
-    extremum = auto()
-    DIFF = auto()
-    EXTR = auto()
+class Measurements(StrEnum):
+    VMAX = auto()
+    VMIN = auto()
+    VPP = auto()
+    VTOP = auto()
+    VBASE = auto()
+    VAMP = auto()
+    VAVG = auto()
+    VRMS = auto()
+    OVERSHOOT = auto()
+    PRESHOOT = auto()
+    MAREA = auto()
+    MPAREA = auto()
+    PERIOD = auto()
+    FREQUENCY = auto()
+    RTIME = auto()
+    FTIME = auto()
+    PWIDTH = auto()
+    NWIDTH = auto()
+    PDUTY = auto()
+    NDUTY = auto()
+    RDELAY = auto()
+    FDELAY = auto()
+    RPHASE = auto()
+    FPHASE = auto()
+    TVMAX = auto()
+    TVMIN = auto()
+    PSLEWRATE = auto()
+    NSLEWRATE = auto()
+    VUPPER = auto()
+    VMID = auto()
+    VLOWER = auto()
+    VARIANCE = auto()
+    PVRMS = auto()
+    PPULSES = auto()
+    NPULSES = auto()
+    PEDGES = auto()
+    NEDGES = auto()
+

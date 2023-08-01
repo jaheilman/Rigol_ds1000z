@@ -1,5 +1,6 @@
 from enum import Enum, auto
 from strenum import StrEnum, UppercaseStrEnum
+import rigol_ds1000z_enums as enm
 
 # class Color(Enum):
 #     RED = auto()
@@ -33,3 +34,18 @@ class Example(UppercaseStrEnum):
 assert Example.UPPER_CASE == "UPPER_CASE"
 assert Example.lower_case == "LOWER_CASE"
 assert Example.MixedCase == "MIXEDCASE"
+print(Example.MixedCase)
+
+class HttpMethod(StrEnum):
+    GET = auto()
+    HEAD = auto()
+    POST = auto()
+    PUT = auto()
+    DELETE = auto()
+    CONNECT = auto()
+    OPTIONS = auto()
+    TRACE = auto()
+    PATCH = auto()
+
+print(HttpMethod.GET)
+print(HttpMethod.CONNECT)

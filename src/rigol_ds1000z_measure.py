@@ -18,7 +18,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.ask(f':MEAS:SOURce?')
     @source.setter
-    def source(self, source:enm.MeasureSource):
+    def source(self, source:enm.MeasureSources):
         s = source.value
         self.visa.write(f':MEAS:SOURce {s}')
         return
@@ -34,7 +34,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.ask(f':MEAS:COUNter:SOURce?')
     @source.setter
-    def source(self, source:enm.MeasureSource):
+    def source(self, source:enm.MeasureSources):
         s = source.value
         self.visa.write(f':MEAS:COUNter:SOURce {s}')
         return
@@ -183,7 +183,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.ask(f':MEAS:SETup:PSA?')
     @setup_psa.setter
-    def setup_psa(self, source:enm.MeasureSource):
+    def setup_psa(self, source:enm.MeasureSources):
         s = source.value
         self.visa.write(f':MEAS:SETup:PSA {s}')
         return
@@ -200,7 +200,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.ask(f':MEAS:SETup:PSB?')
     @setup_psb.setter
-    def setup_psb(self, source:enm.MeasureSource):
+    def setup_psb(self, source:enm.MeasureSources):
         s = source.value
         self.visa.write(f':MEAS:SETup:PSB {s}')
         return
@@ -217,7 +217,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.ask(f':MEAS:SETup:DSA?')
     @setup_dsa.setter
-    def setup_dsa(self, source:enm.MeasureSource):
+    def setup_dsa(self, source:enm.MeasureSources):
         s = source.value
         self.visa.write(f':MEAS:SETup:DSA {s}')
         return
@@ -234,8 +234,9 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.ask(f':MEAS:SETup:DSB?')
     @setup_dsa.setter
-    def setup_dsa(self, source:str):
-        self.visa.write(f':MEAS:SETup:DSB {source}')
+    def setup_dsa(self, source:enm.MeasureSources):
+        s = source.value
+        self.visa.write(f':MEAS:SETup:DSB {s}')
         return
     
 
@@ -304,12 +305,14 @@ class Rigol_ds1000z_Measure():
         self.visa.write(f':MEAS:STATistic:MODE {item}')
         return
 
-    @property
-    def item(self) -> str:
+    # :MEAS:ITEM does not lend itself to get/set methods
+    # because both get and set require two parameters
+    def item_get(self, item, source='') -> str:
         '''
         Measure any waveform parameter of the specified source, 
         or query the measurement result of any waveform 
-        parameter of the specified source
+        parameter of the specified source;
+        If source is ommitted, current :MEAS:SOURCE will be used
         
         <item> Discrete
         {VMAX|VMIN|VPP|VTOP|VBASe|VAMP|VAVG|
@@ -318,14 +321,49 @@ class Rigol_ds1000z_Measure():
         NWIDth|PDUTy|NDUTy|RDELay|FDELay|
         RPHase|FPHase|TVMAX|TVMIN|PSLEWrate|
         NSLEWrate|VUPper|VMID|VLOWer|VARIance|
+        PVRMS|PPULses|NPULses|PEDGes|NEDGes}
+
+        example:
+        :MEASure:ITEM OVERshoot,CHANnel2 // enable overshoot meas on chan2
+        :MEASure:ITEM? OVERshoot,CHANnel2
         '''
-        return self.visa.ask(f':MEAS:STATistic:MODE?')
-    @item.setter
-    def item(self, item:str, sources=[]):
-        if len(sources) > 1:
-            for source in sources:
-                item += "," + source
-        self.visa.write(f':MEAS:ITEM {item}')
+        cmd_str = f':MEAS:ITEM? {item}'
+        if source:
+            cmd_str += f",{source}"
+        return float(self.visa.ask(cmd_str))
+    def item_set(self, item:enm.Measurements, source:enm.MeasureSources=''):
+        # implementation here is limited to one source;
+        # though technically you can specify comma-separated list of sources
+        # if len(sources) > 1: 
+        #     for source in sources:
+        #         item += "," + source
+        cmd_str = f':MEAS:ITEM? {item}'
+        if source:
+            cmd_str += f",{source}"
+        self.visa.write(f':MEAS:ITEM {item},{source}')
         return
 
+    # ===== shortcut helpers =====
+    def vrms(self, source:enm.MeasureSources):
+        return self.item_get(enm.Measurements.VRMS, source=source)
+    
+    def vmin(self, source:enm.MeasureSources):
+        return self.item_get(enm.Measurements.VMIN, source=source)
+    
+    def vmax(self, source:enm.MeasureSources):
+        return self.item_get(enm.Measurements.VMAX, source=source)
 
+    def vavg(self, source:enm.MeasureSources):
+        return self.item_get(enm.Measurements.VAVG, source=source)
+    
+    def vamp(self, source:enm.MeasureSources):
+        return self.item_get(enm.Measurements.VAMP, source=source)
+    
+    def vpp(self, source:enm.MeasureSources):
+        return self.item_get(enm.Measurements.VPP, source=source)
+    
+    def frequency(self, source:enm.MeasureSources):
+        return self.item_get(enm.Measurements.FREQUENCY, source=source)
+    
+    def period(self, source:enm.MeasureSources):
+        return self.item_get(enm.Measurements.PERIOD, source=source)

@@ -10,4 +10,18 @@ visa_resource = rm.open_resource(rm.list_resources()[0])
 dso = Rigol_ds1000z(visa_resource)
 print(dso.idn())
 
-dso.measure.source = ds_enum.MeasureSource.CHAN1
+myval = dso.measure.vrms(ds_enum.MeasureSources.CHAN1)
+print(myval)
+
+myval = dso.measure.vmin(ds_enum.MeasureSources.CHAN1)
+print(myval)
+
+print(dso.measure.vmin(ds_enum.MeasureSources.CHAN2))
+print(dso.measure.vmax(ds_enum.MeasureSources.CHAN2))
+print(dso.measure.vpp(ds_enum.MeasureSources.CHAN2))
+
+print(dso.measure.vmin(ds_enum.MeasureSources.CHAN1))
+print(dso.measure.vmax(ds_enum.MeasureSources.CHAN1))
+print(dso.measure.vpp(ds_enum.MeasureSources.CHAN1))
+
+print('bye')
