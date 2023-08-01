@@ -115,10 +115,10 @@ class Rigol_ds1000z_Channel:
 
         Returns vertical scale in scientific notation [Volts] 
         '''
-        return self.visa.ask(f':CHAN{self._chan}:RANGe?')
+        return float(self.visa.ask(f':CHAN{self._chan}:RANGe?'))
     @range.setter
-    def range(self, vertical_scale:float):
-        self.visa.write(f':CHAN{self._chan}:RANGe {vertical_scale}')
+    def range(self, vertical_range:float):
+        self.visa.write(f':CHAN{self._chan}:RANGe {vertical_range}')
         return
     
     @property
@@ -178,10 +178,10 @@ class Rigol_ds1000z_Channel:
         CHANnel1:TCAL 0.00000002 /*Set the delay calibration time to 20ns*/
         :CHANnel1:TCAL? /*The query returns 2.000000e-08*/
         '''
-        return self.visa.ask(f':CHAN{self._chan}:SCALe?')
+        return float(self.visa.ask(f':CHAN{self._chan}:SCALe?'))
     @scale.setter
-    def scale(self, scale_val:float):
-        self.visa.write(f':CHAN{self._chan}:SCALe {scale_val}')
+    def scale(self, vertical_scale:float):
+        self.visa.write(f':CHAN{self._chan}:SCALe {vertical_scale}')
         return
     
     @property
@@ -195,7 +195,7 @@ class Rigol_ds1000z_Channel:
 
         Returns the probe ratio in scientific notation.
         '''
-        return self.visa.ask(f':CHAN{self._chan}:PROBe?')
+        return float(self.visa.ask(f':CHAN{self._chan}:PROBe?'))
     @probe.setter
     def probe(self, atten:int):
         self.visa.write(f':CHAN{self._chan}:PROBe {atten}')

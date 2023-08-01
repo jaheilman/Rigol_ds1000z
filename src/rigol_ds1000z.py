@@ -3,6 +3,7 @@ from rigol_ds1000z_acquire import Rigol_ds1000z_Acquire
 from rigol_ds1000z_channel import Rigol_ds1000z_Channel
 from rigol_ds1000z_measure import Rigol_ds1000z_Measure
 from rigol_ds1000z_trigger import Rigol_ds1000z_Trigger
+from rigol_ds1000z_timebase import Rigol_ds1000z_Timebase
 
 class Rigol_ds1000z:
     '''
@@ -16,8 +17,10 @@ class Rigol_ds1000z:
         self.visa = Rigol_visa(visa_resource)
         self._num_channels = 4
         self.acquire = Rigol_ds1000z_Acquire(visa_resource)
-        self.channel = [Rigol_ds1000z_Channel(c, self) for c in range(1, self._num_channels+1)]
+        self.channel = [Rigol_ds1000z_Channel(visa_resource, c) for c in range(1, self._num_channels+1)]
         self.measure = Rigol_ds1000z_Measure(visa_resource)
+        self.timebase = Rigol_ds1000z_Timebase(visa_resource)
+        self.trigger = Rigol_ds1000z_Trigger(visa_resource)
 
        
 

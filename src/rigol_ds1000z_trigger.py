@@ -1,4 +1,5 @@
 from rigol_visa import Rigol_visa
+from rigol_ds1000z_enums import TriggerMode
 
 class Rigol_ds1000z_Trigger:
     '''
@@ -18,10 +19,10 @@ class Rigol_ds1000z_Trigger:
                 PATTern|DELay|TIMeout|DURation|SHOLd|
                 RS232|IIC|SPI}
         '''
-        return self.visa_ask(':TRIGger:MODE?')
+        return self.visa.ask(':TRIGger:MODE?')
     @mode.setter
-    def mode(self, mode:str):
-        self.visa_write(f':TRIGger:MODE {mode}')
+    def mode(self, mode:TriggerMode):
+        self.visa.write(f':TRIGger:MODE {mode}')
         return
 
     @property
@@ -31,15 +32,15 @@ class Rigol_ds1000z_Trigger:
 
         <couple> Discrete {AC|DC|LFReject|HFReject} default=DC
         '''
-        return self.visa_ask(':TRIGger:COUPling?')
+        return self.visa.ask(':TRIGger:COUPling?')
     @coupling.setter
     def coupling(self, mode:str):
-        self.visa_write(f':TRIGger:COUPling {mode}')
+        self.visa.write(f':TRIGger:COUPling {mode}')
         return
 
     @property
     def status(self) -> str:
-        return self.visa_ask(f':TRIGger:STATus?')
+        return self.visa.ask(f':TRIGger:STATus?')
 
     @property
     def sweep(self) -> str:
@@ -48,10 +49,10 @@ class Rigol_ds1000z_Trigger:
 
         <sweep> Discrete {AUTO|NORMal|SINGle} default=AUTO
         '''
-        return self.visa_ask(':TRIGger:SWEep?')
+        return self.visa.ask(':TRIGger:SWEep?')
     @sweep.setter
     def sweep(self, sweep:str):
-        self.visa_write(f':TRIGger:SWEep {sweep}')
+        self.visa.write(f':TRIGger:SWEep {sweep}')
         return
     
     @property
@@ -61,10 +62,10 @@ class Rigol_ds1000z_Trigger:
 
         <holdoff> float 16ns to 10s default=16ns
         '''
-        return self.visa_ask(':TRIGger:HOLDoff?')
+        return self.visa.ask(':TRIGger:HOLDoff?')
     @holdoff.setter
     def holdoff(self, holdoff:float):
-        self.visa_write(f':TRIGger:HOLDoff {holdoff}')
+        self.visa.write(f':TRIGger:HOLDoff {holdoff}')
         return
     
     @property
@@ -75,13 +76,13 @@ class Rigol_ds1000z_Trigger:
 
         <bool> Bool {{1|ON}|{0|OFF}} 0|OFF
         '''
-        nr = self.visa_ask(':TRIGger:NREJect?')
+        nr = self.visa.ask(':TRIGger:NREJect?')
         nr_bool = True if nr else False
         return nr_bool
     @noise_reject.setter
     def noise_reject(self, nr_enabled:bool):
         nr = 1 if nr_enabled else 0
-        self.visa_write(f':TRIGger:NREJect {nr}')
+        self.visa.write(f':TRIGger:NREJect {nr}')
         return
     
     @property
@@ -99,7 +100,7 @@ class Rigol_ds1000z_Trigger:
         internal memory that corresponds to the trigger position
 
         '''
-        nr = self.visa_ask(':TRIGger:POSition?')
+        nr = self.visa.ask(':TRIGger:POSition?')
         nr_bool = True if nr else False
         return nr_bool
 
@@ -115,12 +116,12 @@ class Rigol_ds1000z_Trigger:
             CHANnel1|CHANnel2|CHANnel3|CHANnel4|AC}
             CHANnel1
         '''
-        nr = self.visa_ask(':TRIGger:EDGe:SOURce?')
+        nr = self.visa.ask(':TRIGger:EDGe:SOURce?')
         nr_bool = True if nr else False
         return nr_bool
     @edge_source.setter
     def edge_source(self, source:str):
-        self.visa_write(f':TRIGger:EDGe:SOURce {source}')
+        self.visa.write(f':TRIGger:EDGe:SOURce {source}')
         return
     
     @property
@@ -131,10 +132,10 @@ class Rigol_ds1000z_Trigger:
 
         <slope> Discrete {POSitive|NEGative|RFALl} default=POSitive
         '''
-        return self.visa_ask(':TRIGger:EDGe:SLOPe?')
+        return self.visa.ask(':TRIGger:EDGe:SLOPe?')
     @edge_slope.setter
     def edge_slope(self, slope:str):
-        self.visa_write(f':TRIGger:EDGe:SLOPe {slope}')
+        self.visa.write(f':TRIGger:EDGe:SLOPe {slope}')
         return
     
     @property
@@ -148,10 +149,10 @@ class Rigol_ds1000z_Trigger:
                      ( 5 x VerticalScale - OFFSet) 
                      default = 0
         '''
-        return self.visa_ask(':TRIGger:EDGe:LEVel?')
+        return self.visa.ask(':TRIGger:EDGe:LEVel?')
     @edge_level.setter
     def edge_level(self, level:str):
-        self.visa_write(f':TRIGger:EDGe:LEVel {level}')
+        self.visa.write(f':TRIGger:EDGe:LEVel {level}')
         return
     
     @property
@@ -164,10 +165,10 @@ class Rigol_ds1000z_Trigger:
             D9|D10|D11|D12|D13|D14|D15|
             CHANnel1|CHANnel2|CHANnel3|CHANnel4}
         '''
-        return self.visa_ask(':TRIGger:PULSe:SOURce?')
+        return self.visa.ask(':TRIGger:PULSe:SOURce?')
     @pulse_source.setter
     def pulse_source(self, source:str):
-        self.visa_write(f':TRIGger:PULSe:SOURce {source}')
+        self.visa.write(f':TRIGger:PULSe:SOURce {source}')
         return
 
     @property
@@ -179,10 +180,10 @@ class Rigol_ds1000z_Trigger:
                         NLESs|PGLess|NGLess} 
              default = PGReater
         '''
-        return float(self.visa_ask(':TRIGger:PULSe:WHEN?'))
+        return float(self.visa.ask(':TRIGger:PULSe:WHEN?'))
     @pulse_when.setter
     def pulse_when(self, when:str):
-        self.visa_write(f':TRIGger:PULSe:WHEN {when}')
+        self.visa.write(f':TRIGger:PULSe:WHEN {when}')
         return
 
     @property
@@ -194,10 +195,10 @@ class Rigol_ds1000z_Trigger:
         <width> Real 8ns to 10s PGReater, NGReater: 1μs
                                       PLESs, NLESs: 2μs
         '''
-        return float(self.visa_ask(':TRIGger:PULSe:WIDTh?'))
+        return float(self.visa.ask(':TRIGger:PULSe:WIDTh?'))
     @pulse_width.setter
     def pulse_width(self, width:float):
-        self.visa_write(f':TRIGger:PULSe:WIDTh {width}')
+        self.visa.write(f':TRIGger:PULSe:WIDTh {width}')
         return
 
 #  :TRIGger:PULSe:UWIDth
@@ -212,10 +213,10 @@ class Rigol_ds1000z_Trigger:
         <level> Real (-5 x VerticalScale - OFFSet) to
                      ( 5 x VerticalScale - OFFSet) 
         '''
-        return float(self.visa_ask(':TRIGger:PULSe:LEVEl?'))
+        return float(self.visa.ask(':TRIGger:PULSe:LEVEl?'))
     @pulse_level.setter
     def pulse_level(self, level:float):
-        self.visa_write(f':TRIGger:PULSe:LEVEl {level}')
+        self.visa.write(f':TRIGger:PULSe:LEVEl {level}')
         return
 
 

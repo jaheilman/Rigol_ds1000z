@@ -1,6 +1,6 @@
 from rigol_visa import Rigol_visa
 
-class Rigol1000zTimebase:
+class Rigol_ds1000z_Timebase:
     '''
     The :TIMebase commands are used to set the 
     horizontal parameters, such as enabling the delayed

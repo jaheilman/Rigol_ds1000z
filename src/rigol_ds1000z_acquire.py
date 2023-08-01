@@ -50,7 +50,7 @@ class Rigol_ds1000z_Acquire:
     # def mode_high_resolution(self):
     #     self.type('HRES')
 
-
+    @property
     def sample_rate(self) -> int:
         '''
         Query the current sample rate. The default unit is Sa/s.
@@ -67,7 +67,7 @@ class Rigol_ds1000z_Acquire:
         
         Return Format: The query returns the sample rate in float ~~scientific notation~~.
         '''
-        return int(self.visa.ask(':acq:srat?'))
+        return int(float(self.visa.ask(':acq:srat?')))
 
     @property
     def memory_depth(self):
@@ -101,11 +101,11 @@ class Rigol_ds1000z_Acquire:
         The query returns the actual number of points (integer) or AUTO.
         '''
         md = self.visa.ask(':acq:mdep?')
-        return int(md) if md != 'AUTO' else md
+        return int(md) if not md.startswith('AUTO') else md
     @memory_depth.setter
     def memory_depth(self, memory_depth):
         num_enabled_chans = sum(self.get_channels_enabled())
-        # Restort to AUTO if improper number of pts specified
+        # Resort to AUTO if improper number of pts specified
         if num_enabled_chans == 1:
             if pts not in ('AUTO', 12000, 120000, 1200000, 12000000, 24000000):
                 pts = 'AUTO'
