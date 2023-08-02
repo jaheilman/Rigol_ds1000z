@@ -1,4 +1,5 @@
 from rigol_visa import Rigol_visa
+import os
 
 class Rigol_ds1000z_Screenshot:
     def __init__(self, visa_resource):

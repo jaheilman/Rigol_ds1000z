@@ -13,13 +13,13 @@ class Rigol_visa:
     def read(self):
         return self.visa_resource.read().strip()
 
-    def read_raw(self, num_bytes=-1):
+    def read_raw(self, num_bytes:int=None):
         return self.visa_resource.read_raw(num_bytes)
 
     def ask(self, cmd):
         return self.visa_resource.query(cmd)
 
-    def ask_raw(self, cmd, num_bytes=-1):
+    def ask_raw(self, cmd, num_bytes:int=None):
         self.write(cmd)
         return self.read_raw(num_bytes)
 

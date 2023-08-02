@@ -1,9 +1,12 @@
+import pyvisa as _visa
 from rigol_visa import Rigol_visa
 from rigol_ds1000z_acquire import Rigol_ds1000z_Acquire
 from rigol_ds1000z_channel import Rigol_ds1000z_Channel
 from rigol_ds1000z_measure import Rigol_ds1000z_Measure
 from rigol_ds1000z_trigger import Rigol_ds1000z_Trigger
 from rigol_ds1000z_timebase import Rigol_ds1000z_Timebase
+from rigol_ds1000z_wave import Rigol_ds1000z_Wave
+from rigol_ds1000z_screenshot import Rigol_ds1000z_Screenshot
 
 class Rigol_ds1000z:
     '''
@@ -12,17 +15,18 @@ class Rigol_ds1000z:
     Attributes:
 
     '''
-    def __init__(self, visa_resource):
-        self.visa_resource = visa_resource
-        self.visa = Rigol_visa(visa_resource)
+    def __init__(self, visa_resource=None):
+        self.visa_resource = self._autodetect_visa(visa_resource)
+        self.visa = Rigol_visa(self.visa_resource)
         self._num_channels = 4
-        self.acquire = Rigol_ds1000z_Acquire(visa_resource)
-        self.channel = [Rigol_ds1000z_Channel(visa_resource, c) for c in range(1, self._num_channels+1)]
-        self.measure = Rigol_ds1000z_Measure(visa_resource)
-        self.timebase = Rigol_ds1000z_Timebase(visa_resource)
-        self.trigger = Rigol_ds1000z_Trigger(visa_resource)
+        self.acquire = Rigol_ds1000z_Acquire(self.visa_resource)
+        self.channel = [Rigol_ds1000z_Channel(self.visa_resource, c) for c in range(1, self._num_channels+1)]
+        self.measure = Rigol_ds1000z_Measure(self.visa_resource)
+        self.timebase = Rigol_ds1000z_Timebase(self.visa_resource)
+        self.trigger = Rigol_ds1000z_Trigger(self.visa_resource)
+        self.wave = Rigol_ds1000z_Wave(self.visa_resource)
+        self.screenshot = Rigol_ds1000z_Screenshot(self.visa_resource)
 
-       
 
     def __getitem__(self, i):
         assert 1 <= i <= 4, 'Not a valid channel.'
@@ -30,6 +34,21 @@ class Rigol_ds1000z:
 
     def __len__(self):
         return len(self._num_channels)
+
+    def _autodetect_visa(self, visa_resource):
+        if visa_resource:
+            return visa_resource
+        rm = _visa.ResourceManager()
+        resources_found = rm.list_resources()
+        for resource in resources_found:
+            visa_resource = rm.open_resource(resource)
+            idn = visa_resource.query("*IDN?")
+            if ('RIGOL' in idn) and self._known_scope_model(idn):
+                return visa_resource
+
+    def _known_scope_model(self, idn:str):
+        KNOWN_SCOPE_MODELS = ['1054Z', '1074Z', '1104Z']
+        return bool([model for model in KNOWN_SCOPE_MODELS if(model in idn)])
 
     def autoscale(self):
         self.visa.write(':autoscale') 
@@ -142,14 +161,6 @@ class Rigol_ds1000z:
         '''
         self.visa.write('*WAI')
     
-
-
-# DECoder Commands
-
-# :MATH Commands
-
-# MASK commands
-
 
 
 
