@@ -19,7 +19,7 @@ class Rigol_ds1000z_Channel:
 
         bw is {20M|OFF}
         '''
-        return self.visa.ask(f':CHAN{self._chan}:BWLimit?')
+        return self.visa.query(f':CHAN{self._chan}:BWLimit?')
     @bandwidth_limit.setter
     def bandwidth_limit(self, limit_on:bool=False):
         bw = '20M' if limit_on else 'OFF'
@@ -34,7 +34,7 @@ class Rigol_ds1000z_Channel:
         chan {1|2|3|4}
         coupling  {AC|DC|GND} 
         '''
-        return self.visa.ask(f':CHAN{self._chan}:COUPling?')
+        return self.visa.query(f':CHAN{self._chan}:COUPling?')
     @coupling.setter
     def coupling(self, chan:int, coupling:str):
         self.visa.write(f':CHAN{self._chan}:COUPling {coupling}')
@@ -50,7 +50,7 @@ class Rigol_ds1000z_Channel:
 
         Returns 1 (ON) or 0 (OFF) 
         '''
-        return self.visa.ask(f':CHAN{self._chan}:DISPplay?')
+        return self.visa.query(f':CHAN{self._chan}:DISPplay?')
     @display.setter
     def display(self, channel_on:bool):
         chan_on = 1 if channel_on else 0
@@ -68,7 +68,7 @@ class Rigol_ds1000z_Channel:
 
         Returns 0 (NORMAL) or 1 (INVERTED)  
         '''
-        return self.visa.ask(f':CHAN{self._chan}:INVert?')
+        return self.visa.query(f':CHAN{self._chan}:INVert?')
     @invert.setter
     def invert(self, invert_on:bool):
         inv_chan = 1 if invert_on else 0
@@ -92,7 +92,7 @@ class Rigol_ds1000z_Channel:
 
         Returns offset in scientific notation [Volts] 
         '''
-        return self.visa.ask(f':CHAN{self._chan}:OFFSet?')
+        return self.visa.query(f':CHAN{self._chan}:OFFSet?')
     @offset.setter
     def offset(self, offset_value:float):
         self.visa.write(f':CHAN{self._chan}:OFFSet {offset_value}')
@@ -115,7 +115,7 @@ class Rigol_ds1000z_Channel:
 
         Returns vertical scale in scientific notation [Volts] 
         '''
-        return float(self.visa.ask(f':CHAN{self._chan}:RANGe?'))
+        return float(self.visa.query(f':CHAN{self._chan}:RANGe?'))
     @range.setter
     def range(self, vertical_range:float):
         self.visa.write(f':CHAN{self._chan}:RANGe {vertical_range}')
@@ -148,7 +148,7 @@ class Rigol_ds1000z_Channel:
         CHANnel1:TCAL 0.00000002 /*Set the delay calibration time to 20ns*/
         :CHANnel1:TCAL? /*The query returns 2.000000e-08*/
         '''
-        return self.visa.ask(f':CHAN{self._chan}:TCAL?')
+        return self.visa.query(f':CHAN{self._chan}:TCAL?')
     @tcal.setter
     def tcal(self, val:float):
         self.visa.write(f':CHAN{self._chan}:TCAL {val}')
@@ -178,7 +178,7 @@ class Rigol_ds1000z_Channel:
         CHANnel1:TCAL 0.00000002 /*Set the delay calibration time to 20ns*/
         :CHANnel1:TCAL? /*The query returns 2.000000e-08*/
         '''
-        return float(self.visa.ask(f':CHAN{self._chan}:SCALe?'))
+        return float(self.visa.query(f':CHAN{self._chan}:SCALe?'))
     @scale.setter
     def scale(self, vertical_scale:float):
         self.visa.write(f':CHAN{self._chan}:SCALe {vertical_scale}')
@@ -195,7 +195,7 @@ class Rigol_ds1000z_Channel:
 
         Returns the probe ratio in scientific notation.
         '''
-        return float(self.visa.ask(f':CHAN{self._chan}:PROBe?'))
+        return float(self.visa.query(f':CHAN{self._chan}:PROBe?'))
     @probe.setter
     def probe(self, atten:int):
         self.visa.write(f':CHAN{self._chan}:PROBe {atten}')
@@ -211,7 +211,7 @@ class Rigol_ds1000z_Channel:
 
         Returns VOLT, WATT, AMP, or UNKN
         '''
-        return self.visa.ask(f':CHAN{self._chan}:UNITs?')
+        return self.visa.query(f':CHAN{self._chan}:UNITs?')
     @units.setter
     def units(self, units:str):
         self.visa.write(f':CHAN{self._chan}:UNITs {units}')
@@ -230,7 +230,7 @@ class Rigol_ds1000z_Channel:
 
         Returns 0 (OFF) or 1 (ON)
         '''
-        return self.visa.ask(f':CHAN{self._chan}:VERNier?')
+        return self.visa.query(f':CHAN{self._chan}:VERNier?')
     @vernier.setter
     def vernier(self, vernier_on:bool):
         vern_on = 1 if vernier_on else 0

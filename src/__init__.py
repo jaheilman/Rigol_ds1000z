@@ -1,1 +1,1 @@
-from .rigol1000z import *
+from .rigol_ds1000z import Rigol_ds1000z

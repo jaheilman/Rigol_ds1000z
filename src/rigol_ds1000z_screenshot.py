@@ -26,7 +26,7 @@ class Rigol_ds1000z_Screenshot:
         oldTimeout = self.visa_resource.timeout
         self.visa_resource.timeout = None
 
-        raw_img = self.visa.ask_raw(':disp:data? on,off,%s' % format, 3850780)[11:-4]
+        raw_img = self.visa.query_raw(':disp:data? on,off,%s' % format, 3850780)[11:-4]
 
         self.visa_resource.timeout = oldTimeout
 

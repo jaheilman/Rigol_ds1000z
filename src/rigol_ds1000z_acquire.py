@@ -17,7 +17,7 @@ class Rigol_ds1000z_Acquire:
         if count is not a power of 2, it will be rounded down to the nearest
         power of 2
         '''
-        return int(self.visa.ask(':acq:averages?'))
+        return int(self.visa.query(':acq:averages?'))
     @averages.setter
     def averages(self, countcal:int):
         if count not in range(1, 11):
@@ -33,7 +33,7 @@ class Rigol_ds1000z_Acquire:
 
         mode = {NORMal|AVERages|PEAK|HRESolution}
         '''
-        return self.visa.ask(':acq:type?')
+        return self.visa.query(':acq:type?')
     @type.setter
     def type(self, mode:str):
         self.visa.write(f':acq:type {mode}')
@@ -67,7 +67,7 @@ class Rigol_ds1000z_Acquire:
         
         Return Format: The query returns the sample rate in float ~~scientific notation~~.
         '''
-        return int(float(self.visa.ask(':acq:srat?')))
+        return int(float(self.visa.query(':acq:srat?')))
 
     @property
     def memory_depth(self):
@@ -100,7 +100,7 @@ class Rigol_ds1000z_Acquire:
 
         The query returns the actual number of points (integer) or AUTO.
         '''
-        md = self.visa.ask(':acq:mdep?')
+        md = self.visa.query(':acq:mdep?')
         return int(md) if not md.startswith('AUTO') else md
     @memory_depth.setter
     def memory_depth(self, memory_depth):

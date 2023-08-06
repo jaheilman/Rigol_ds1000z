@@ -13,6 +13,13 @@ class Rigol_ds1000z:
     Rigol DS1000z series oscilloscope driver.
 
     Attributes:
+      acquire
+      channel
+      measure
+      screenshot
+      timebase
+      trigger
+      wave
 
     '''
     def __init__(self, visa_resource=None):

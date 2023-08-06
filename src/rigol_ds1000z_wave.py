@@ -22,7 +22,7 @@ class Rigol_ds1000z_Wave():
                     CHANnel1|CHANnel2|CHANnel3|CHANnel4|MATH}
         default: CHANnel1
         '''
-        return self.visa.ask(f':WAVeform:SOURce?')
+        return self.visa.query(f':WAVeform:SOURce?')
     @source.setter
     def source(self, source:WaveSource):
         self.visa.write(f':WAVeform:SOURce {source}')
@@ -35,7 +35,7 @@ class Rigol_ds1000z_Wave():
 
         <mode> Discrete {NORMal|MAXimum|RAW} default: NORMal
         '''
-        return self.visa.ask(f':WAVeform:MODE?')
+        return self.visa.query(f':WAVeform:MODE?')
     @mode.setter
     def mode(self, mode:WaveMode):
         self.visa.write(f':WAVeform:MODE {mode}')
@@ -48,7 +48,7 @@ class Rigol_ds1000z_Wave():
 
         <format> Discrete {WORD|BYTE|ASCii} default: BYTE
         '''
-        return self.visa.ask(f':WAVeform:FORMat?')
+        return self.visa.query(f':WAVeform:FORMat?')
     @format.setter
     def format(self, format:WaveFormat):
         self.visa.write(f':WAVeform:FORMat {format}')
@@ -72,7 +72,7 @@ class Rigol_ds1000z_Wave():
         that can be read, one must perform multiple block reads using START and STOP
         to define the blocks.
         '''
-        return self.visa.ask_raw(f':WAVeform:DATA?')
+        return self.visa.write_read_raw(f':WAVeform:DATA?')
 
     @property
     def x_increment(self) -> float:
@@ -82,7 +82,7 @@ class Rigol_ds1000z_Wave():
 
         The query returns the XINCrement as float
         '''
-        return float(self.visa.ask(f':WAVeform:XINCrement?'))
+        return float(self.visa.query(f':WAVeform:XINCrement?'))
 
     @property
     def x_origin(self) -> float:
@@ -103,7 +103,7 @@ class Rigol_ds1000z_Wave():
         the waveform data in the internal memory when the instrument is in stop status.
         
         '''
-        return float(self.visa.ask(f':WAVeform:XORigin?'))
+        return float(self.visa.query(f':WAVeform:XORigin?'))
     
     @property
     def x_reference(self) -> float:
@@ -111,7 +111,7 @@ class Rigol_ds1000z_Wave():
         Query the reference time of the specified channel source in the X direction
         
         '''
-        return float(self.visa.ask(f':WAVeform:XREFerence?'))
+        return float(self.visa.query(f':WAVeform:XREFerence?'))
     
     @property
     def y_increment(self) -> float:
@@ -128,7 +128,7 @@ class Rigol_ds1000z_Wave():
         currently selected when the instrument is in stop status
         
         '''
-        return float(self.visa.ask(f':WAVeform:YINCrement?'))
+        return float(self.visa.query(f':WAVeform:YINCrement?'))
 
     @property
     def y_origin(self) -> int:
@@ -145,7 +145,7 @@ class Rigol_ds1000z_Wave():
         Verticalscale currently selected when the instrument is in stop status.
         
         '''
-        return int(self.visa.ask(f':WAVeform:YORigin?'))
+        return int(self.visa.query(f':WAVeform:YORigin?'))
     
     @property
     def y_reference(self) -> int:
@@ -154,7 +154,7 @@ class Rigol_ds1000z_Wave():
 
         Always returns 127 (0 = bottom of screen, 255 = top of screen)
         '''
-        return float(self.visa.ask(f':WAVeform:YREFerence?'))
+        return float(self.visa.query(f':WAVeform:YREFerence?'))
     
     @property
     def start(self) -> int:
@@ -167,7 +167,7 @@ class Rigol_ds1000z_Wave():
         RAW: 1 to the current maximum memory depth
 1
         '''
-        return int(self.visa.ask(f':WAVeform:STARt?'))
+        return int(self.visa.query(f':WAVeform:STARt?'))
     @start.setter
     def start(self, start:int):
         self.visa.write(f':WAVeform:STARt {start}')
@@ -184,7 +184,7 @@ class Rigol_ds1000z_Wave():
         RAW: 1 to the current maximum memory depth
 1
         '''
-        return int(self.visa.ask(f':WAVeform:STOP?'))
+        return int(self.visa.query(f':WAVeform:STOP?'))
     @stop.setter
     def stop(self, stop:int):
         self.visa.write(f':WAVeform:STOP {stop}')
@@ -198,7 +198,7 @@ class Rigol_ds1000z_Wave():
         <format>,<type>,<points>,<count>,<xincrement>,<xorigin>,
         <xreference>,<yincrement>,<yorigin>,<yreference>
         '''
-        pre = self.visa.ask('WAVeform:PREamble?').split(',')
+        pre = self.visa.query('WAVeform:PREamble?').split(',')
         pre_dict = {
             'format': int(pre[0]),
             'type': int(pre[1]),
@@ -261,7 +261,7 @@ class Rigol_ds1000z_Wave():
                     self.stop = (num_blocks*readout_pts+last_block_pts)
                 else:
                     break
-            mydata = self.visa.ask_raw(':wav:data?')
+            mydata = self.visa.write_read_raw(':wav:data?')
             mydata2 = self.data
             data = self.data[11:]
             data = np.frombuffer(data, 'B')

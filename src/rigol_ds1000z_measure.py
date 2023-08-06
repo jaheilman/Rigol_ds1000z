@@ -16,7 +16,7 @@ class Rigol_ds1000z_Measure():
                 D9|D10|D11|D12|D13|D14|D15|
                 CHANnel1|CHANnel2|CHANnel3|CHANnel4|MATH}
         '''
-        return self.visa.ask(f':MEAS:SOURce?')
+        return self.visa.query(f':MEAS:SOURce?')
     @source.setter
     def source(self, source:enm.MeasureSources):
         s = source.value
@@ -32,7 +32,7 @@ class Rigol_ds1000z_Measure():
                   D9|D10|D11|D12|D13|D14|D15|
                   CHANnel1|CHANnel2|CHANnel3|CHANnel4|OFF}
         '''
-        return self.visa.ask(f':MEAS:COUNter:SOURce?')
+        return self.visa.query(f':MEAS:COUNter:SOURce?')
     @source.setter
     def source(self, source:enm.MeasureSources):
         s = source.value
@@ -48,7 +48,7 @@ class Rigol_ds1000z_Measure():
         If the frequency counter is disabled, 0.0000000e+00 will be returned.
         Example -- :MEASure:COUNter:VALue? /*The query returns 1.000004e+03*/
         '''
-        return self.visa.ask(f':MEAS:COUNter:VALue?')
+        return self.visa.query(f':MEAS:COUNter:VALue?')
     
     def clear(self, item:enm.MeasureItems):
         '''
@@ -85,7 +85,7 @@ class Rigol_ds1000z_Measure():
         channel at the same time. You can send the :MEASure:AMSource command to set
         the source of the all measurement function. 
         '''
-        return self.visa.ask(f':MEAS:ADISplay?')
+        return self.visa.query(f':MEAS:ADISplay?')
     @all_display.setter
     def all_display(self, all_on:bool):
         on = 1 if all_on else 0
@@ -100,7 +100,7 @@ class Rigol_ds1000z_Measure():
 
         <src> Discrete {CHANnel1|CHANnel2|CHANnel3|CHANnel4|MATH} 
         '''
-        return self.visa.ask(f':MEAS:AMSource?')
+        return self.visa.query(f':MEAS:AMSource?')
     @amsource.setter
     def amsource(self, sources:List[enm.AnalogChannels]):
         src_list = ''
@@ -119,7 +119,7 @@ class Rigol_ds1000z_Measure():
 
         <value> Integer 7 to 95 (default 90)
         '''
-        return self.visa.ask(f':MEAS:SETup:MAX?')
+        return self.visa.query(f':MEAS:SETup:MAX?')
     @setup_max.setter
     def setup_max(self, upper_limit:int):
         if upper_limit < 7:
@@ -140,7 +140,7 @@ class Rigol_ds1000z_Measure():
 
         <value> Integer 6 to 94 (default 50)
         '''
-        return self.visa.ask(f':MEAS:SETup:MID?')
+        return self.visa.query(f':MEAS:SETup:MID?')
     @setup_mid.setter
     def setup_mid(self, midpoint:int):
         if midpoint < 6:
@@ -161,7 +161,7 @@ class Rigol_ds1000z_Measure():
 
         <value> Integer 6 to 94 (default 50)
         '''
-        return self.visa.ask(f':MEAS:SETup:MIN?')
+        return self.visa.query(f':MEAS:SETup:MIN?')
     @setup_min.setter
     def setup_min(self, lower_limit:int):
         if lower_limit < 5:
@@ -181,7 +181,7 @@ class Rigol_ds1000z_Measure():
             D9|D10|D11|D12|D13|D14|D15|
             CHANnel1|CHANnel2|CHANnel3|CHANnel4}
         '''
-        return self.visa.ask(f':MEAS:SETup:PSA?')
+        return self.visa.query(f':MEAS:SETup:PSA?')
     @setup_psa.setter
     def setup_psa(self, source:enm.MeasureSources):
         s = source.value
@@ -198,7 +198,7 @@ class Rigol_ds1000z_Measure():
             D9|D10|D11|D12|D13|D14|D15|
             CHANnel1|CHANnel2|CHANnel3|CHANnel4}
         '''
-        return self.visa.ask(f':MEAS:SETup:PSB?')
+        return self.visa.query(f':MEAS:SETup:PSB?')
     @setup_psb.setter
     def setup_psb(self, source:enm.MeasureSources):
         s = source.value
@@ -215,7 +215,7 @@ class Rigol_ds1000z_Measure():
             D9|D10|D11|D12|D13|D14|D15|
             CHANnel1|CHANnel2|CHANnel3|CHANnel4}
         '''
-        return self.visa.ask(f':MEAS:SETup:DSA?')
+        return self.visa.query(f':MEAS:SETup:DSA?')
     @setup_dsa.setter
     def setup_dsa(self, source:enm.MeasureSources):
         s = source.value
@@ -232,7 +232,7 @@ class Rigol_ds1000z_Measure():
             D9|D10|D11|D12|D13|D14|D15|
             CHANnel1|CHANnel2|CHANnel3|CHANnel4}
         '''
-        return self.visa.ask(f':MEAS:SETup:DSB?')
+        return self.visa.query(f':MEAS:SETup:DSB?')
     @setup_dsa.setter
     def setup_dsa(self, source:enm.MeasureSources):
         s = source.value
@@ -248,7 +248,7 @@ class Rigol_ds1000z_Measure():
         
         <bool> Bool {{1|ON}|{0|OFF}} 0|OFF
         '''
-        return self.visa.ask(f':MEAS:STATistic:DISPlay?')
+        return self.visa.query(f':MEAS:STATistic:DISPlay?')
     @statistic_display.setter
     def statistic_display(self, display_on:bool):
         disp_on = 1 if display_on else 0
@@ -262,7 +262,7 @@ class Rigol_ds1000z_Measure():
         
         <mode> Discrete {DIFFerence|EXTRemum} (Default EXTRem)
         '''
-        return self.visa.ask(f':MEAS:STATistic:MODE?')
+        return self.visa.query(f':MEAS:STATistic:MODE?')
     @statistic_display.setter
     def statistic_display(self, mode:str):
         self.visa.write(f':MEAS:STATistic:MODE {mode}')
@@ -299,7 +299,7 @@ class Rigol_ds1000z_Measure():
         <type> Discrete {MAXimum|MINimum|CURRent|AVERages|
         DEViation} --
         '''
-        return self.visa.ask(f':MEAS:STATistic:MODE?')
+        return self.visa.query(f':MEAS:STATistic:MODE?')
     @statistic_item.setter
     def statistic_item(self, item:str):
         self.visa.write(f':MEAS:STATistic:MODE {item}')
@@ -330,7 +330,7 @@ class Rigol_ds1000z_Measure():
         cmd_str = f':MEAS:ITEM? {item}'
         if source:
             cmd_str += f",{source}"
-        return float(self.visa.ask(cmd_str))
+        return float(self.visa.query(cmd_str))
     def item_set(self, item:enm.Measurements, source:enm.MeasureSources=''):
         # implementation here is limited to one source;
         # though technically you can specify comma-separated list of sources

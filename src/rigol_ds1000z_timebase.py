@@ -18,7 +18,7 @@ class Rigol_ds1000z_Timebase:
         
         <enable> Bool {{1|ON}|{0|OFF}}  default 0 
         '''
-        return self.visa.ask(f':TIMebase:DELay:ENABle?')
+        return self.visa.query(f':TIMebase:DELay:ENABle?')
     @delay_enable.setter
     def delay_enable(self, enable:bool):
         en = 1 if enable else 0
@@ -33,7 +33,7 @@ class Rigol_ds1000z_Timebase:
         <offset> Float -(LeftTime - DelayRange/2) to
                         (RightTime - DelayRange/2)  Default 0
         '''
-        return float(self.visa.ask(f':TIMebase:DELay:OFFSet?'))
+        return float(self.visa.query(f':TIMebase:DELay:OFFSet?'))
     @delay_offset.setter
     def delay_offset(self, offset:float):
         self.visa.write(f':TIMebase:DELay:OFFSet {offset}')
@@ -51,7 +51,7 @@ class Rigol_ds1000z_Timebase:
 
         See Programmer reference for further detail
         '''
-        return float(self.visa.ask(f':TIMebase:DELay:SCALe?'))
+        return float(self.visa.query(f':TIMebase:DELay:SCALe?'))
     @delay_scale.setter
     def delay_scale(self, scale:float):
         self.visa.write(f':TIMebase:DELay:SCALe {scale}')
@@ -65,7 +65,7 @@ class Rigol_ds1000z_Timebase:
         The range of <offset> is related to the current mode of the horizontal
         timebase (refer to :TIMebase:MODE) and run state of the oscilloscope.
         '''
-        return float(self.visa.ask(f':TIMebase:MAIN:OFFSet?'))
+        return float(self.visa.query(f':TIMebase:MAIN:OFFSet?'))
     @offset.setter
     def offset(self, offset:float):
         self.visa.write(f':TIMebase:MAIN:OFFSet {offset}')
@@ -91,7 +91,7 @@ class Rigol_ds1000z_Timebase:
           Real YT mode: 5ns/div to 50s/div in 1-2-5 step
           Roll mode: 200ms/div to 50s/div in 1-2-5 step 1μs/div
         '''
-        return float(self.visa.ask(f':TIMebase:MAIN:SCALe?'))
+        return float(self.visa.query(f':TIMebase:MAIN:SCALe?'))
     @scale.setter
     def scale(self, scale:float):
         self.visa.write(f':TIMebase:MAIN:SCALe {scale}')
@@ -115,7 +115,7 @@ class Rigol_ds1000z_Timebase:
 
         <mode> Discrete {MAIN|XY|ROLL} default MAIN
         '''
-        return float(self.visa.ask(f':TIMebase:MODE?'))
+        return float(self.visa.query(f':TIMebase:MODE?'))
     @mode.setter
     def mode(self, mode:float):
         self.visa.write(f':TIMebase:MODE {mode}')
