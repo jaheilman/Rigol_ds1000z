@@ -1,5 +1,5 @@
-from rigol_visa import Rigol_visa
-import rigol_ds1000z_enums as enm
+from .rigol_visa import Rigol_visa
+from .rigol_ds1000z_constants import MeasureItems, MeasureSources, Measurements, AnalogChannels
 from typing import List
 
 class Rigol_ds1000z_Measure():
@@ -18,7 +18,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.query(f':MEAS:SOURce?')
     @source.setter
-    def source(self, source:enm.MeasureSources):
+    def source(self, source:MeasureSources):
         s = source.value
         self.visa.write(f':MEAS:SOURce {s}')
         return
@@ -34,7 +34,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.query(f':MEAS:COUNter:SOURce?')
     @source.setter
-    def source(self, source:enm.MeasureSources):
+    def source(self, source:MeasureSources):
         s = source.value
         self.visa.write(f':MEAS:COUNter:SOURce {s}')
         return
@@ -50,7 +50,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.query(f':MEAS:COUNter:VALue?')
     
-    def clear(self, item:enm.MeasureItems):
+    def clear(self, item:MeasureItems):
         '''
         Clear one or all of the last five measurement items enabled
         <item> {ITEM1|ITEM2|ITEM3|ITEM4|ITEM5|ALL}
@@ -58,7 +58,7 @@ class Rigol_ds1000z_Measure():
         self.visa.write(f':MEAS:CLEar {item}')
         return
     
-    def clear(self, item:enm.MeasureItems):
+    def clear(self, item:MeasureItems):
         '''
         Recover the measurement item which has been cleared.
         <item> {ITEM1|ITEM2|ITEM3|ITEM4|ITEM5|ALL}
@@ -102,7 +102,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.query(f':MEAS:AMSource?')
     @amsource.setter
-    def amsource(self, sources:List[enm.AnalogChannels]):
+    def amsource(self, sources:List[AnalogChannels]):
         src_list = ''
         for source in sources:
             src_list += source + ','
@@ -183,7 +183,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.query(f':MEAS:SETup:PSA?')
     @setup_psa.setter
-    def setup_psa(self, source:enm.MeasureSources):
+    def setup_psa(self, source:MeasureSources):
         s = source.value
         self.visa.write(f':MEAS:SETup:PSA {s}')
         return
@@ -200,7 +200,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.query(f':MEAS:SETup:PSB?')
     @setup_psb.setter
-    def setup_psb(self, source:enm.MeasureSources):
+    def setup_psb(self, source:MeasureSources):
         s = source.value
         self.visa.write(f':MEAS:SETup:PSB {s}')
         return
@@ -217,7 +217,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.query(f':MEAS:SETup:DSA?')
     @setup_dsa.setter
-    def setup_dsa(self, source:enm.MeasureSources):
+    def setup_dsa(self, source:MeasureSources):
         s = source.value
         self.visa.write(f':MEAS:SETup:DSA {s}')
         return
@@ -234,7 +234,7 @@ class Rigol_ds1000z_Measure():
         '''
         return self.visa.query(f':MEAS:SETup:DSB?')
     @setup_dsa.setter
-    def setup_dsa(self, source:enm.MeasureSources):
+    def setup_dsa(self, source:MeasureSources):
         s = source.value
         self.visa.write(f':MEAS:SETup:DSB {s}')
         return
@@ -331,7 +331,7 @@ class Rigol_ds1000z_Measure():
         if source:
             cmd_str += f",{source}"
         return float(self.visa.query(cmd_str))
-    def item_set(self, item:enm.Measurements, source:enm.MeasureSources=''):
+    def item_set(self, item:Measurements, source:MeasureSources=''):
         # implementation here is limited to one source;
         # though technically you can specify comma-separated list of sources
         # if len(sources) > 1: 
@@ -344,26 +344,26 @@ class Rigol_ds1000z_Measure():
         return
 
     # ===== shortcut helpers =====
-    def vrms(self, source:enm.MeasureSources):
-        return self.item_get(enm.Measurements.VRMS, source=source)
+    def vrms(self, source:MeasureSources):
+        return self.item_get(Measurements.VRMS, source=source)
     
-    def vmin(self, source:enm.MeasureSources):
-        return self.item_get(enm.Measurements.VMIN, source=source)
+    def vmin(self, source:MeasureSources):
+        return self.item_get(Measurements.VMIN, source=source)
     
-    def vmax(self, source:enm.MeasureSources):
-        return self.item_get(enm.Measurements.VMAX, source=source)
+    def vmax(self, source:MeasureSources):
+        return self.item_get(Measurements.VMAX, source=source)
 
-    def vavg(self, source:enm.MeasureSources):
-        return self.item_get(enm.Measurements.VAVG, source=source)
+    def vavg(self, source:MeasureSources):
+        return self.item_get(Measurements.VAVG, source=source)
     
-    def vamp(self, source:enm.MeasureSources):
-        return self.item_get(enm.Measurements.VAMP, source=source)
+    def vamp(self, source:MeasureSources):
+        return self.item_get(Measurements.VAMP, source=source)
     
-    def vpp(self, source:enm.MeasureSources):
-        return self.item_get(enm.Measurements.VPP, source=source)
+    def vpp(self, source:MeasureSources):
+        return self.item_get(Measurements.VPP, source=source)
     
-    def frequency(self, source:enm.MeasureSources):
-        return self.item_get(enm.Measurements.FREQUENCY, source=source)
+    def frequency(self, source:MeasureSources):
+        return self.item_get(Measurements.FREQUENCY, source=source)
     
-    def period(self, source:enm.MeasureSources):
-        return self.item_get(enm.Measurements.PERIOD, source=source)
+    def period(self, source:MeasureSources):
+        return self.item_get(Measurements.PERIOD, source=source)

@@ -1,5 +1,5 @@
-from rigol_visa import Rigol_visa
-from rigol_ds1000z_enums import TriggerMode
+from .rigol_visa import Rigol_visa
+from .rigol_ds1000z_constants import TriggerMode
 
 class Rigol_ds1000z_Trigger:
     '''

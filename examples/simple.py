@@ -1,20 +1,21 @@
-from Rigol_ds1000z import Rigol_ds1000z
-import rigol_ds1000z_enums as RigolTypes
+
+from Rigol_ds1000z import rigol_ds1000z
+import Rigol_ds1000z.rigol_ds1000z_constants as RigolConst
 
 #autodetect
-dso = Rigol_ds1000z()
+dso = rigol_ds1000z.Rigol_ds1000z()
 print(dso.idn())
 
-dso.trigger.mode = RigolTypes.TriggerMode.EDGE
+dso.trigger.mode = RigolConst.TriggerMode.EDGE
 dso.stop
 print(dso.acquire.memory_depth)
 print(dso.acquire.sample_rate)
 dso.run
 
 ## Measurements
-print(dso.measure.vmin(RigolTypes.MeasureSources.CHAN1))
-print(dso.measure.vmax(RigolTypes.MeasureSources.CHAN1))
-print(dso.measure.vpp(RigolTypes.MeasureSources.CHAN1))
+print(dso.measure.vmin(RigolConst.MeasureSources.CHAN1))
+print(dso.measure.vmax(RigolConst.MeasureSources.CHAN1))
+print(dso.measure.vpp(RigolConst.MeasureSources.CHAN1))
 
 # Channels
 # channels 1-4 are accessed as an array
@@ -34,5 +35,5 @@ print(dso.timebase.scale)
 
 # wave
 dso.single
-data = dso.wave.get_wavedata(source=RigolTypes.WaveSource.CHAN2, mode=RigolTypes.WaveMode.NORMAL)
+data = dso.wave.get_wavedata(source=RigolConst.WaveSource.CHAN2, mode=RigolConst.WaveMode.NORMAL)
 print(data)

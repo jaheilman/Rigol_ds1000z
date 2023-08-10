@@ -1,4 +1,4 @@
-from rigol_visa import Rigol_visa
+from .rigol_visa import Rigol_visa
 
 class Rigol_ds1000z_Timebase:
     '''

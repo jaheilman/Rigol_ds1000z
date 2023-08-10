@@ -8,24 +8,20 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='Rigol_ds1000z',
-    version='0.3.0',
+    version='0.4.0',
     author="Jeremiah Heilman (@jaheilman)",
     author_email="jeremiah.heilman@gmail.com",
-    description="Python based library to control Rigol DS1000z series oscilloscopes using VISA (USB and Ethernet).",
+    description="A [nearly complete] Python-based library to control Rigol DS1000z series oscilloscopes using VISA (USB and Ethernet).",
     long_description=long_description,
     long_description_content_type='text/markdown',
     url="https://github.com/jaheilman/Rigol_ds1000z",
-    # packages=['rigol_ds1000z'],
-    packages=find_packages(),
+    packages=['Rigol_ds1000z'],
     install_requires=['pyvisa', 'numpy', 'strenum'],
-
     keywords=['python', 'Rigol', 'oscilloscope'],
     classifiers= [
         "Development Status :: beta",
         "Intended Audience :: Test Engineering",
         "Programming Language :: Python :: 3",
-        "Operating System :: MacOS :: MacOS X",
-        "Operating System :: Microsoft :: Windows",
-        "Operating System :: Linux",
+        "Operating System :: OS Independent",
     ]
 )

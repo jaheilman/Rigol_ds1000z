@@ -1,24 +1,24 @@
 import pyvisa as _visa
-from rigol_visa import Rigol_visa
-from rigol_ds1000z_acquire import Rigol_ds1000z_Acquire
-from rigol_ds1000z_channel import Rigol_ds1000z_Channel
-from rigol_ds1000z_measure import Rigol_ds1000z_Measure
-from rigol_ds1000z_trigger import Rigol_ds1000z_Trigger
-from rigol_ds1000z_timebase import Rigol_ds1000z_Timebase
-from rigol_ds1000z_wave import Rigol_ds1000z_Wave
-from rigol_ds1000z_screenshot import Rigol_ds1000z_Screenshot
+from .rigol_visa               import Rigol_visa
+from .rigol_ds1000z_acquire    import Rigol_ds1000z_Acquire
+from .rigol_ds1000z_channel    import Rigol_ds1000z_Channel
+from .rigol_ds1000z_measure    import Rigol_ds1000z_Measure
+from .rigol_ds1000z_trigger    import Rigol_ds1000z_Trigger
+from .rigol_ds1000z_timebase   import Rigol_ds1000z_Timebase
+from .rigol_ds1000z_wave       import Rigol_ds1000z_Wave
+from .rigol_ds1000z_screenshot import Rigol_ds1000z_Screenshot
 
 class Rigol_ds1000z:
     '''
     Rigol DS1000z series oscilloscope driver.
 
-    Attributes:
+    Attributes implmemented:
       acquire
       channel
       measure
       screenshot
       timebase
-      trigger
+      trigger (analog)
       wave
 
     '''
@@ -26,12 +26,12 @@ class Rigol_ds1000z:
         self.visa_resource = self._autodetect_visa(visa_resource)
         self.visa = Rigol_visa(self.visa_resource)
         self._num_channels = 4
-        self.acquire = Rigol_ds1000z_Acquire(self.visa_resource)
-        self.channel = [Rigol_ds1000z_Channel(self.visa_resource, c) for c in range(1, self._num_channels+1)]
-        self.measure = Rigol_ds1000z_Measure(self.visa_resource)
-        self.timebase = Rigol_ds1000z_Timebase(self.visa_resource)
-        self.trigger = Rigol_ds1000z_Trigger(self.visa_resource)
-        self.wave = Rigol_ds1000z_Wave(self.visa_resource)
+        self.acquire    = Rigol_ds1000z_Acquire(self.visa_resource)
+        self.channel    = [Rigol_ds1000z_Channel(self.visa_resource, c) for c in range(1, self._num_channels+1)]
+        self.measure    = Rigol_ds1000z_Measure(self.visa_resource)
+        self.timebase   = Rigol_ds1000z_Timebase(self.visa_resource)
+        self.trigger    = Rigol_ds1000z_Trigger(self.visa_resource)
+        self.wave       = Rigol_ds1000z_Wave(self.visa_resource)
         self.screenshot = Rigol_ds1000z_Screenshot(self.visa_resource)
 
 
@@ -170,40 +170,3 @@ class Rigol_ds1000z:
     
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# if __name__ == "__main__":
-#     rm = _visa.ResourceManager()
-#     print(rm.list_resources())
-#     visa_resource = rm.open_resource(rm.list_resources()[0])
-#     scope = Rigol_ds1000z(visa_resource)
-#     print(scope.idn())

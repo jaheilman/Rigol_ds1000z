@@ -1,6 +1,6 @@
 
 from enum import Enum
-from rigol_visa import Rigol_visa
+from .rigol_visa import Rigol_visa
 import math
 
 class Rigol_ds1000z_Acquire:

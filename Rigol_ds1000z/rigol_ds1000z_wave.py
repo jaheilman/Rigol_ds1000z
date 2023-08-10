@@ -1,5 +1,5 @@
-from rigol_visa import Rigol_visa
-from  rigol_ds1000z_enums import WaveSource, WaveMode, WaveFormat
+from .rigol_visa import Rigol_visa
+from .rigol_ds1000z_constants import WaveSource, WaveMode, WaveFormat
 import numpy as np
 
 class Rigol_ds1000z_Wave():

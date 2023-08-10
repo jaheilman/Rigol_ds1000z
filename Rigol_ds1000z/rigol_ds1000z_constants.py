@@ -1,6 +1,13 @@
 from enum import Enum, auto
 from strenum import StrEnum
 
+'''
+A Class declared with (StrEnum) allows use of auto()
+CHAN1 = auto()
+which sets the string equal to the property name, equivalent to
+CHAN1 = "CHAN1"
+'''
+
 class MeasureSources(StrEnum):
     CHAN1 = auto()
     CHAN2 = auto()
@@ -33,8 +40,8 @@ class AnalogChannels(StrEnum):
 
 
 class MeasureStatisticsDisplay(StrEnum):
-    difference = auto()
-    extremum = auto()
+    difference = "DIFF"
+    extremum = "EXTR"
     DIFF = auto()
     EXTR = auto()
 
@@ -51,6 +58,7 @@ class Measurements(StrEnum):
     VMAX = auto()
     VMIN = auto()
     VPP = auto()
+    v_peak_to_peak = "VPP"
     VTOP = auto()
     VBASE = auto()
     VAMP = auto()
