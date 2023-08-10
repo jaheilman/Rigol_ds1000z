@@ -23,7 +23,7 @@ Tested on Linux Mint and MX Linux using a Rigol DS1154Z.
 * [pyvisa](https://github.com/pyvisa/pyvisa)
 * [strenum](https://github.com/irgeek/StrEnum)
 
-## Example
+# Example
 ```python
 
 from Rigol_ds1000z import rigol_ds1000z
@@ -59,20 +59,20 @@ are all included in the main class, Rigol_ds1000z, and nest nicely.
 
 Also, many of the string types required for commands are stored in rigol_ds1000z_consants.
 
-# IEEE488 
+## IEEE488 
 ```python
 dso.idn
 dso.run
 ```
 
-# Example Acquire
+## Example Acquire
 ```python
 sample_rate = dso.acquire.sample_rate
 print(sample_rate)
 dso.acquire.averages = 2
 ```
 
-# Measurements
+## Measurements
 Here we use MeasureSources constants to access provide the correct channel syntax.
 ```python
 voltage_min  = dso.measure.vmin(RigolConst.MeasureSources.CHAN1)
@@ -88,7 +88,7 @@ my_idn = dso.visa.query("*IDN")
 ```
 
 
-## Acknowledgements
+# Acknowledgements
 Based on the original work by @jtambasco and @jeanyvesb9's change PyVISA dependency in order to make this library cross-platform.
 
 I have added most of the SCPI commands, converted the interface into class property types.  

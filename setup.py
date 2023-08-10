@@ -19,9 +19,8 @@ setup(
     install_requires=['pyvisa', 'numpy', 'strenum'],
     keywords=['python', 'Rigol', 'oscilloscope'],
     classifiers= [
-        "Development Status :: beta",
-        "Intended Audience :: Test Engineering",
-        "Programming Language :: Python :: 3",
+        "Development Status :: 4 - Beta",
+        "Programming Language :: Python :: 3.8",
         "Operating System :: OS Independent",
     ]
 )
