@@ -4,7 +4,7 @@ import Rigol_ds1000z.rigol_ds1000z_constants as RigolConst
 
 #autodetect
 dso = rigol_ds1000z.Rigol_ds1000z()
-print(dso.idn())
+print(dso.idn)
 
 dso.trigger.mode = RigolConst.TriggerMode.EDGE
 dso.stop

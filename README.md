@@ -26,34 +26,66 @@ Tested on Linux Mint and MX Linux using a Rigol DS1154Z.
 ## Example
 ```python
 
-from rigol_ds1000z import Rigol_ds1000z
+from Rigol_ds1000z import rigol_ds1000z
+import Rigol_ds1000z.rigol_ds1000z_constants as RigolConst
 
-# Autodetect Rigol ds1000z series
-oscope = Rigol_ds1000z.rigol_ds1000z()
-print(oscope.idn)
+# Autodetect a Rigol scope of 1000z series model
+dso = rigol_ds1000z.Rigol_ds1000z()
+print(dso.idn)
 
+# Manually select a scope
+import pyvisa as visa
+
+rm = visa.ResourceManager()
+print(rm.list_resources())
+visa_resource = rm.open_resource(rm.list_resources()[0])
+dso_manual = Rigol_ds1000z(visa_resource=visa_resource)
+print(dso_manual.idn)
 ```
 
-## Calling aditional commands
-Most Rigol DS1000z SCPI commands are available in this library
+## Calling library commands
+Most Rigol DS1000z SCPI commands are available in this library.  The SCPI
+functional groupings implmented are:
+ - IEEE488
+ - Acquire (ACQ)
+ - Channel (CHAN)
+ - Measure (MEAS)
+ - Timebase (TIM)
+ - Trigger (TRIG)
+ - Wave (WAV)
 
-Users can send SCPI commands and receive information directly from the oscilloscope through the following methods:
+These are all implemented as sub-modules (e.g. rigol_ds1000z_measure.py), but
+are all included in the main class, Rigol_ds1000z, and nest nicely.
+
+Also, many of the string types required for commands are stored in rigol_ds1000z_consants.
+
+# IEEE488 
+```python
+dso.idn
+dso.run
+```
+
+# Example Acquire
+```python
+sample_rate = dso.acquire.sample_rate
+print(sample_rate)
+dso.acquire.averages = 2
+```
+
+# Measurements
+Here we use MeasureSources constants to access provide the correct channel syntax.
+```python
+voltage_min  = dso.measure.vmin(RigolConst.MeasureSources.CHAN1)
+voltage_max  = dso.measure.vmax(RigolConst.MeasureSources.CHAN2)
+voltage_pkpk = dso.measure.vpp(RigolConst.MeasureSources.CHAN3)
+```
+## Calling additional commands
+Users can send SCPI commands and receive information directly from the oscilloscope through the rigol_visa module, and the following methods:
 
 ```python
-todo
+my_idn = dso.visa.query("*IDN")
 
 ```
-
-### Reading software measurements and statical data
-
-```python
-print(dso.measure.vmin(RigolTypes.MeasureSources.CHAN1))
-print(dso.measure.vmax(RigolTypes.MeasureSources.CHAN1))
-print(dso.measure.vpp(RigolTypes.MeasureSources.CHAN1))
-
-```
-
-An full implementation of a manual frequency sweep bode plot measurement is available in the _examples_ folder.
 
 
 ## Acknowledgements
