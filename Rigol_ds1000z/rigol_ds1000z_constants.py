@@ -1,4 +1,4 @@
-from enum import Enum, auto
+from enum import auto
 from strenum import StrEnum
 
 '''
@@ -140,7 +140,51 @@ class WaveMode(StrEnum):
     MAXIMUM = auto()
     RAW = auto()
 
-class WaveFormat(StrEnum):
-    WORD = auto()
-    BYTE = auto()
+class MemoryDepth(StrEnum):
+    AUTO           = 'AUTO'
+    Analog_1Chan_12k    = '12000'
+    Analog_1Chan_120k   = '120000'
+    Analog_1Chan_1M2    = '1200000'
+    Analog_1Chan_12M    = '12000000'
+    Analog_1Chan_24M    = '24000000'
+    Analog_2Chan_6k     = '6000'
+    Analog_2Chan_60k    = '60000'
+    Analog_2Chan_600k   = '600000'
+    Analog_2Chan_6M     = '6000000'
+    Analog_2Chan_12M    = '12000000'
+    Analog_4Chan_3k     = '3000'
+    Analog_4Chan_30k    = '30000'
+    Analog_4Chan_300k   = '300000'
+    Analog_4Chan_3M     = '3000000' 
+    Analog_4Chan_6M     = '6000000'
+    Digital_8Chan_12k   = '12000' 
+    Digital_8Chan_120k  = '120000'
+    Digital_8Chan_1M2   = '1200000'
+    Digital_8Chan_12M   = '12000000'
+    Digital_8Chan_24M   = '24000000'
+    Digital_16Chan_6k   = '6000'
+    Digital_16Chan_60k  = '60000'
+    Digital_16Chan_600k = '600000'
+    Digital_16Chan_6M   = '6000000'
+    Digital_16Chan_12M  = '12000000'
+
+
+class AcquisitionMode(StrEnum):
+    NORMAL = auto()
+    AVERAGES = auto()
+    PEAK = auto()
+    HIGH_RESOLUTION = "HResolution"
+
+class DecoderMode(StrEnum):
+    PARALLEL = auto()
+    UART = auto()
+    SPI = auto()
+    IIC = auto()
+
+class DecoderFormat(StrEnum):
+    HEX = auto()
     ASCII = auto()
+    DEC = auto()
+    BIN = auto()
+    LINE = auto()
+    

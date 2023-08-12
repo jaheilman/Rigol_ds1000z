@@ -1,6 +1,5 @@
-
-from enum import Enum
 from .rigol_visa import Rigol_visa
+from .rigol_ds1000z_constants import MemoryDepth, AcquisitionMode
 import math
 
 class Rigol_ds1000z_Acquire:
@@ -13,17 +12,15 @@ class Rigol_ds1000z_Acquire:
         '''
         Set or query the number of averages under the average acquisition mode
 
-        count is 2^n where is an integer from 1 to 10
+        averages is 2^n where is an integer from 1 to 10
         if count is not a power of 2, it will be rounded down to the nearest
         power of 2
         '''
         return int(self.visa.query(':acq:averages?'))
     @averages.setter
-    def averages(self, countcal:int):
-        if count not in range(1, 11):
-            return
-        count = 2**(math.floor(math.log2(count)))
-        self.visa.write(f':acq:averages {count}')
+    def averages(self, averages:int):
+        averages = 2**(math.floor(math.log2(averages)))
+        self.visa.write(f':acq:averages {averages}')
         return
 
     @property
@@ -35,20 +32,9 @@ class Rigol_ds1000z_Acquire:
         '''
         return self.visa.query(':acq:type?')
     @type.setter
-    def type(self, mode:str):
+    def type(self, mode:AcquisitionMode):
         self.visa.write(f':acq:type {mode}')
 
-    # def mode_normal(self):
-    #     self.type('NORM')
-
-    # def mode_averagesl(self): 
-    #     self.type('AVER')
-
-    # def mode_peak(self):
-    #     self.type('PEAK')
-
-    # def mode_high_resolution(self):
-    #     self.type('HRES')
 
     @property
     def sample_rate(self) -> int:
@@ -65,7 +51,7 @@ class Rigol_ds1000z_Acquire:
         the :TIMebase[:MAIN]:SCALe command) times the number of the horizontal scales
         (12 for DS1000Z).
         
-        Return Format: The query returns the sample rate in float ~~scientific notation~~.
+        Return Format: The query returns the sample rate (integer).
         '''
         return int(float(self.visa.query(':acq:srat?')))
 
@@ -103,42 +89,24 @@ class Rigol_ds1000z_Acquire:
         md = self.visa.query(':acq:mdep?')
         return int(md) if not md.startswith('AUTO') else md
     @memory_depth.setter
-    def memory_depth(self, memory_depth):
-        num_enabled_chans = sum(self.get_channels_enabled())
+    def memory_depth(self, memory_depth:MemoryDepth):
+        num_enabled_chans = self._channels_enabled()
         # Resort to AUTO if improper number of pts specified
         if num_enabled_chans == 1:
-            if pts not in ('AUTO', 12000, 120000, 1200000, 12000000, 24000000):
+            if pts not in ('AUTO', '12000', '120000', '1200000', '12000000', '24000000'):
                 pts = 'AUTO'
         elif num_enabled_chans == 2:
-            if pts not in ('AUTO', 6000, 60000, 600000, 6000000, 12000000):
+            if pts not in ('AUTO', '6000', '60000', '600000', '6000000', '12000000'):
                 pts = 'AUTO'
         elif num_enabled_chans in (3, 4):
-            if pts not in ('AUTO', 3000, 30000, 300000, 3000000, 6000000):
+            if pts not in ('AUTO', '3000', '30000', '300000', '3000000', '6000000'):
                 pts = 'AUTO'
-        pts = int(pts) if pts != 'AUTO' else pts
         self.run()
         self.visa.write(f':acq:mdep {pts}')
 
-class OneChannelMemoryOptions(Enum):
-    AUTO          = 'AUTO',
-    mdep_12000    = 12000,
-    mdep_120000   = 120000,
-    mdep_1200000  = 1200000,
-    mdep_12000000 = 12000000,
-    mdep_24000000 = 24000000
 
-class TwoChannelMemoryOptions(Enum):
-    AUTO          = 'AUTO',
-    mdep_6000     = 6000,
-    mdep_60000    = 60000,
-    mdep_600000   = 600000,
-    mdep_6000000  = 6000000,
-    mdep_12000000 = 12000000
-
-class FourChannelMemoryOptions(Enum):
-    AUTO          = 'AUTO',
-    mdep_3000     = 3000,
-    mdep_30000    = 30000,
-    mdep_300000   = 300000, 
-    mdep_3000000  = 3000000, 
-    mdep_6000000  = 6000000
+    def _channels_enabled(self) -> int:
+        channels_enabled = 0
+        for chan in ['CHAN1', 'CHAN2', 'CHAN3', 'CHAN4']:
+            channels_enable += self.visa.query(f':{chan}:DISPplay?')
+        return channels_enabled

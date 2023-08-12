@@ -15,7 +15,7 @@ class Rigol_ds1000z_Channel:
     @property
     def bandwidth_limit(self) -> str:
         '''
-        SSet or query the bandwidth limit parameter of the specified channel.
+        Set or query the bandwidth limit parameter of the specified channel.
 
         bw is {20M|OFF}
         '''
