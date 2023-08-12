@@ -187,4 +187,31 @@ class DecoderFormat(StrEnum):
     DEC = auto()
     BIN = auto()
     LINE = auto()
-    
+
+class DecoderUart(StrEnum):
+    D0 = auto()
+    D1 = auto()
+    D2 = auto()
+    D3 = auto()
+    D4 = auto()
+    D5 = auto()
+    D6 = auto()
+    D7 = auto()
+    D8 = auto()
+    D9 = auto()
+    D10 = auto()
+    D11 = auto()
+    D12 = auto()
+    D13 = auto()
+    D14 = auto()
+    D15 = auto()
+    CHAN1 = auto()
+    CHAN2 = auto()
+    CHAN3 = auto()
+    CHAN4 = auto()
+    OFF = auto()
+
+class UartParity(StrEnum):
+    NONE = auto()
+    EVEN = auto()
+    ODD = auto()
