@@ -1,5 +1,5 @@
 from .rigol_visa import Rigol_visa
-import numpy as _np
+# import numpy as _np
 
 class Rigol_ds1000z_Channel:
     '''

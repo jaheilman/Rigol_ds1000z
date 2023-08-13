@@ -1,5 +1,7 @@
 from .rigol_visa import Rigol_visa
-from .rigol_ds1000z_constants import DecoderMode, DecoderFormat, DecoderUart, UartParity
+from .rigol_ds1000z_constants import DecoderMode, DecoderFormat, DecoderChannel, DecoderEndian, \
+    UartParity, \
+    I2CAddressMode, SpiPolarity, SpiEdge
 
 class Rigol_ds1000z_Decoder:
     def __init__(self, visa_resource, n_decoder):
@@ -268,6 +270,15 @@ class Rigol_ds1000z_Decoder:
         '''
         return float(self.visa.query(f':DECoder{self._decoder}:CONFig:SRATe?'))
     
+# ==================================================================================
+# ========                        UART                                     =========
+# ==================================================================================
+
+    def setup_uart(self, tx_chan:DecoderChannel, rx_chan:DecoderChannel, baud:int):
+        self.uart_tx = tx_chan
+        self.uart_rx = rx_chan
+        self.uart_baud = baud
+
     @property
     def uart_tx(self) -> str:
         '''
@@ -278,7 +289,7 @@ class Rigol_ds1000z_Decoder:
         '''
         return (self.visa.query(f':DECoder{self._decoder}:UART:TX?'))
     @uart_tx.setter
-    def uart_tx(self, channel:DecoderUart):
+    def uart_tx(self, channel:DecoderChannel):
         self.visa.write(f':DECoder{self._decoder}:UART:TX {channel}')
         return
     
@@ -292,7 +303,7 @@ class Rigol_ds1000z_Decoder:
         '''
         return (self.visa.query(f':DECoder{self._decoder}:UART:RX?'))
     @uart_rx.setter
-    def uart_rx(self, channel:DecoderUart):
+    def uart_rx(self, channel:DecoderChannel):
         self.visa.write(f':DECoder{self._decoder}:UART:RX {channel}')
         return
     
@@ -385,3 +396,219 @@ class Rigol_ds1000z_Decoder:
     def uart_parity(self, parity:UartParity):
         self.visa.write(f':DECoder{self._decoder}:UART:PARity {parity}')
         return
+    
+
+# ==================================================================================
+# ========                        I2C                                      =========
+# ==================================================================================
+
+    def i2c_setup(self, clock:DecoderChannel, data:DecoderChannel):
+        self.i2c_clock = clock
+        self.i2c_data  = data
+
+    @property
+    def i2c_clock(self) -> str:
+        '''
+        Set or query the signal source of the clock channel in I2C decoding.
+        '''
+        return int(self.visa.query(f':DECoder{self._decoder}:IIC:CLK?'))
+    @i2c_clock.setter
+    def i2c_clock(self, channel:DecoderChannel):
+        self.visa.write(f':DECoder{self._decoder}:IIC:CLK {channel}')
+        return
+
+
+    @property
+    def i2c_data(self) -> str:
+        '''
+        Set or query the signal source of the data channel in I2C decoding.
+        '''
+        return int(self.visa.query(f':DECoder{self._decoder}:IIC:DATA?'))
+    @i2c_data.setter
+    def i2c_data(self, channel:DecoderChannel):
+        self.visa.write(f':DECoder{self._decoder}:IIC:DATA {channel}')
+        return
+    
+
+    @property
+    def i2c_address_mode(self) -> str:
+        '''
+        Set or query the address mode of I2C decoding.
+
+        <address_mode> {NORMal|RW}  Default: NORMAL
+
+        NORMal: the address bits (:TRIGger:IIC:AWIDth) does not include the R/W bit.
+        RW: the address bits (:TRIGger:IIC:AWIDth) includes the R/W bit.
+        '''
+        return int(self.visa.query(f':DECoder{self._decoder}:IIC:ADDRess?'))
+    @i2c_data.setter
+    def i2c_data(self, address_mode:I2CAddressMode):
+        self.visa.write(f':DECoder{self._decoder}:IIC:ADDRess {address_mode}')
+        return
+
+# ==================================================================================
+# ========                        SPI                                      =========
+# ==================================================================================
+
+    def setup_spi(self, clock:DecoderChannel, miso:DecoderChannel, moso:DecoderChannel, cs:DecoderChannel):
+        self.spi_clock = clock
+        self.spi_miso = miso
+        self.spi_mosi = mosi
+
+    @property
+    def spi_clock(self) -> str:
+        '''
+        Set or query the signal source of the clock channel in SPI decoding.
+        '''
+        return str(self.visa.query(f':DECoder{self._decoder}:SPI:CLK?'))
+    @i2c_clock.setter
+    def i2c_clock(self, channel:DecoderChannel):
+        self.visa.write(f':DECoder{self._decoder}:SPI:CLK {channel}')
+        return
+
+    @property
+    def spi_miso(self) -> str:
+        '''
+        Set or query the signal source of the clock channel in SPI decoding.
+        '''
+        return str(self.visa.query(f':DECoder{self._decoder}:SPI:MISO?'))
+    @spi_miso.setter
+    def spi_miso(self, channel:DecoderChannel):
+        self.visa.write(f':DECoder{self._decoder}:SPI:MISO {channel}')
+        return
+
+    @property
+    def spi_mosi(self) -> str:
+        '''
+        Set or query the signal source of the clock channel in SPI decoding.
+        '''
+        return str(self.visa.query(f':DECoder{self._decoder}:SPI:MOSI?'))
+    @spi_mosi.setter
+    def spi_mosi(self, channel:DecoderChannel):
+        self.visa.write(f':DECoder{self._decoder}:SPI:MOSI {channel}')
+        return
+
+    @property
+    def spi_cs(self) -> str:
+        '''
+        Set or query the signal source of the clock channel in SPI decoding.
+        '''
+        return str(self.visa.query(f':DECoder{self._decoder}:SPI:CS?'))
+    @spi_cs.setter
+    def spi_cs(self, channel:DecoderChannel):
+        self.visa.write(f':DECoder{self._decoder}:SPI:CS {channel}')
+        return
+    
+    @property
+    def spi_cs_polarity(self) -> str:
+        '''
+        Set or query the CS polarity in SPI decoding.
+
+        This command is only valid in the CS mode (:DECoder<n>:SPI:MODE).
+        '''
+        return str(self.visa.query(f':DECoder{self._decoder}:SPI:SELect?'))
+    @spi_cs_polarity.setter
+    def spi_cs_polarity(self, cs_polarity_low:bool):
+        pol = "NCS" if cs_polarity_low else "CS"
+        self.visa.write(f':DECoder{self._decoder}:SPI:SELect {pol}')
+        return
+
+    @property
+    def spi_mode(self) -> str:
+        '''
+        Set or query the frame synchronization mode of SPI decoding.
+
+        CS: it contains a chip select line (CS). You can perform frame synchronization
+        according to CS. At this point, you need to send the :DECoder<n>:SPI:CS
+        and :DECoder<n>:SPI:SELect commands to set the CS channel source and polarity.
+        
+        TIMeout: you can perform frame synchronization according to the timeout time. At
+        this point, you need to send the :DECoder<n>:SPI:TIMeout command to set the
+        timeout time.
+
+        <cs_timeout> Discrete {CS|TIMeout} TIMeout
+        '''
+        return str(self.visa.query(f':DECoder{self._decoder}:SPI:MODE?'))
+    @spi_mode.setter
+    def spi_mode(self, frame_sync_timeout:bool):
+        val = "TIM" if frame_sync_timeout else "CS"
+        self.visa.write(f':DECoder{self._decoder}:SPI:MODE {val}')
+        return
+    
+    @property
+    def spi_timeout(self) -> float:
+        '''
+        Set or query the timeout time in the timeout mode of SPI decoding. The default unit is s.           
+
+        The timeout time should be greater than the maximum pulse width of the clock and
+        lower than the idle time between frames.
+
+        This command is only valid in the timeout mode (:DECoder<n>:SPI:MODE).
+        '''
+        return float(self.visa.query(f':DECoder{self._decoder}:SPI:TIMeout?'))
+    @spi_timeout.setter
+    def spi_timeout(self, timeout:float):
+        self.visa.write(f':DECoder{self._decoder}:SPI:TIMeout {timeout}')
+        return
+    
+    @property
+    def spi_polarity(self) -> str:
+        '''
+        Set or query the timeout time in the timeout mode of SPI decoding. The default unit is s.           
+
+        The timeout time should be greater than the maximum pulse width of the clock and
+        lower than the idle time between frames.
+
+        This command is only valid in the timeout mode (:DECoder<n>:SPI:MODE).
+        '''
+        return float(self.visa.query(f':DECoder{self._decoder}:SPI:POLarity?'))
+    @spi_polarity.setter
+    def spi_polarity(self, polarity:SpiPolarity):
+        self.visa.write(f':DECoder{self._decoder}:SPI:POLarity {polarity}')
+        return
+    
+    @property
+    def spi_edge(self) -> str:
+        '''
+        Set or query the clock type when the instrument samples the data line in SPI decoding.
+        '''
+        return float(self.visa.query(f':DECoder{self._decoder}:SPI:EDGE?'))
+    @spi_edge.setter
+    def spi_edge(self, edge:SpiEdge):
+        self.visa.write(f':DECoder{self._decoder}:SPI:EDGE {edge}')
+        return
+    
+    @property
+    def spi_endian(self) -> str:
+        '''
+        Set or query the endian of the SPI decoding data.
+
+        LSB or MSB, default MSB
+        '''
+        return float(self.visa.query(f':DECoder{self._decoder}:SPI:ENDian?'))
+    @spi_endian.setter
+    def spi_endian(self, edge:DecoderEndian):
+        self.visa.write(f':DECoder{self._decoder}:SPI:ENDian {edge}')
+        return
+    
+    @property
+    def spi_width(self) -> int:
+        '''
+        Set or query the number of bits of each frame of data in SPI decoding.
+        '''
+        return int(self.visa.query(f':DECoder{self._decoder}:SPI:WIDTh?'))
+    @spi_width.setter
+    def spi_width(self, width:DecoderEndian):
+        if width < 8:  width = 8
+        if width > 32: width = 32
+        self.visa.write(f':DECoder{self._decoder}:SPI:WIDTh {width}')
+        return
+    
+
+
+# ==================================================================================
+# ========                        PARALLEL                                 =========
+# ==================================================================================
+
+#TODO
+

@@ -188,7 +188,7 @@ class DecoderFormat(StrEnum):
     BIN = auto()
     LINE = auto()
 
-class DecoderUart(StrEnum):
+class DecoderChannel(StrEnum):
     D0 = auto()
     D1 = auto()
     D2 = auto()
@@ -211,7 +211,23 @@ class DecoderUart(StrEnum):
     CHAN4 = auto()
     OFF = auto()
 
+class SpiEndian(StrEnum):
+    LSB = auto()
+    MSB = auto()
+
 class UartParity(StrEnum):
     NONE = auto()
     EVEN = auto()
     ODD = auto()
+
+class I2CAddressMode(StrEnum):
+    NORMAL = auto()
+    RW = auto()
+
+class SpiPolarity(StrEnum):
+    POS = auto()
+    NEG = auto()
+
+class SpiEdge(StrEnum):
+    RISE = auto()
+    FALL = auto()
