@@ -1,4 +1,4 @@
-from enum import auto
+from enum import Enum, auto
 from strenum import StrEnum
 
 '''
@@ -7,6 +7,10 @@ CHAN1 = auto()
 which sets the string equal to the property name, equivalent to
 CHAN1 = "CHAN1"
 '''
+
+def class_has_value(test_value, in_class) -> bool:
+    values = set(item.value for item in in_class)
+    return test_value in values
 
 class MeasureSources(StrEnum):
     CHAN1 = auto()
@@ -181,6 +185,19 @@ class DecoderMode(StrEnum):
     SPI = auto()
     IIC = auto()
 
+class OnOff(Enum):
+    ON = 1
+    OFF = 0
+
+class Polarity(StrEnum):
+    POSITIVE = "POS"
+    NEGATIVE = "NEG"
+
+class Endianess(StrEnum):
+    LSB = auto()
+    MSB = auto()
+
+
 class DecoderFormat(StrEnum):
     HEX = auto()
     ASCII = auto()
@@ -189,6 +206,11 @@ class DecoderFormat(StrEnum):
     LINE = auto()
 
 class DecoderChannel(StrEnum):
+    CHAN1 = auto()
+    CHAN2 = auto()
+    CHAN3 = auto()
+    CHAN4 = auto()
+    OFF = auto()
     D0 = auto()
     D1 = auto()
     D2 = auto()
@@ -205,16 +227,16 @@ class DecoderChannel(StrEnum):
     D13 = auto()
     D14 = auto()
     D15 = auto()
-    CHAN1 = auto()
-    CHAN2 = auto()
-    CHAN3 = auto()
-    CHAN4 = auto()
-    OFF = auto()
 
-class SpiEndian(StrEnum):
+
+class DecoderEndian(StrEnum):
     LSB = auto()
     MSB = auto()
 
+class UartStopBits(Enum):
+    Bits_1   = 1
+    Bits_1_5 = 1.5
+    Bits_2   = 2
 class UartParity(StrEnum):
     NONE = auto()
     EVEN = auto()
@@ -231,3 +253,7 @@ class SpiPolarity(StrEnum):
 class SpiEdge(StrEnum):
     RISE = auto()
     FALL = auto()
+
+class SpiTimeout(StrEnum):
+    TIM = auto()
+    CS  = auto()
