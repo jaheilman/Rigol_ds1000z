@@ -49,6 +49,13 @@ class MeasureStatisticsDisplay(StrEnum):
     DIFF = auto()
     EXTR = auto()
 
+class MeasureStatisticsType(StrEnum):
+    MAXIMUM   = auto()
+    MINIMUM   = auto()
+    CURRENT   = auto()
+    AVERAGES  = auto()
+    DEVIATION = auto()
+
 ## These from :MEAS:ADIS
 class MeasureItems(StrEnum):
     ITEM1 = auto()
@@ -62,7 +69,6 @@ class Measurements(StrEnum):
     VMAX = auto()
     VMIN = auto()
     VPP = auto()
-    v_peak_to_peak = "VPP"
     VTOP = auto()
     VBASE = auto()
     VAMP = auto()
@@ -172,6 +178,9 @@ class MemoryDepth(StrEnum):
     Digital_16Chan_6M   = '6000000'
     Digital_16Chan_12M  = '12000000'
 
+class StatisticsMode(StrEnum):
+    DIFFERENCE = "DIFF" 
+    EXTREMUM = "EXTR"
 
 class AcquisitionMode(StrEnum):
     NORMAL = auto()
@@ -202,6 +211,16 @@ class Edge(StrEnum):
     FALL = auto()
     BOTH = auto()
 
+class ChannelCoupling(StrEnum):
+    AC = auto()
+    DC = auto()
+    GND = auto()
+
+class ChannelUnits(StrEnum):
+    VOLT = auto()
+    WATT = auto()
+    AMP  = auto()
+    UNKN = auto()
 
 class DecoderFormat(StrEnum):
     HEX = auto()

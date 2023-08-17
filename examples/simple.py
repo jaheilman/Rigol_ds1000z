@@ -16,6 +16,11 @@ dso.run
 print(dso.measure.vmin(RigolConst.MeasureSources.CHAN1))
 print(dso.measure.vmax(RigolConst.MeasureSources.CHAN1))
 print(dso.measure.vpp(RigolConst.MeasureSources.CHAN1))
+x = dso.measure.setup.delay_source_a
+y = dso.measure.statistic.reset()
+dso.measure.clear = RigolConst.MeasureItems.ALL
+
+
 
 # Channels
 # channels 1-4 are accessed as an array

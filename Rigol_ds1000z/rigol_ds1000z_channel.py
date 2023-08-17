@@ -1,4 +1,5 @@
 from .rigol_visa import Rigol_visa
+from .rigol_ds1000z_constants import  OnOff, ChannelCoupling, ChannelUnits
 # import numpy as _np
 
 class Rigol_ds1000z_Channel:
@@ -27,7 +28,7 @@ class Rigol_ds1000z_Channel:
         return
     
     @property
-    def coupling(self):
+    def coupling(self) -> ChannelCoupling:
         '''
         Set or query the coupling mode of the specified channel.
 
@@ -36,12 +37,12 @@ class Rigol_ds1000z_Channel:
         '''
         return self.visa.query(f':CHAN{self._chan}:COUPling?')
     @coupling.setter
-    def coupling(self, chan:int, coupling:str):
+    def coupling(self, coupling:ChannelCoupling):
         self.visa.write(f':CHAN{self._chan}:COUPling {coupling}')
         return
     
     @property
-    def display(self) -> str:
+    def display(self) -> OnOff:
         '''
         Enable or disable the specified channel or query the status of the specified channel.
 
@@ -52,9 +53,8 @@ class Rigol_ds1000z_Channel:
         '''
         return self.visa.query(f':CHAN{self._chan}:DISPplay?')
     @display.setter
-    def display(self, channel_on:bool):
-        chan_on = 1 if channel_on else 0
-        self.visa.write(f':CHAN{self._chan}:DISPplay {chan_on}')
+    def display(self, chan_display:OnOff):
+        self.visa.write(f':CHAN{self._chan}:DISPplay {chan_display}')
         return
     
     @property
@@ -76,7 +76,7 @@ class Rigol_ds1000z_Channel:
         return
     
     @property
-    def offset(self) -> str:
+    def offset(self) -> float:
         '''
         Set or query the vertical offset of the specified channel. The default unit is V.
 
@@ -84,22 +84,23 @@ class Rigol_ds1000z_Channel:
         <offset> 
 
         When the probe ratio is 1X,
-            vertical scale≥500mV/div: -100V to +100V
-            vertical scale<500mV/div: -2V to +2V
+            vertical scale ≥ 500mV/div: -100V to +100V
+            vertical scale < 500mV/div: -2V to +2V
         When the probe ratio is 10X,
             vertical scale≥5V/div: -1000V to +1000V
             vertical scale<5V/div: -20V to +20V
 
         Returns offset in scientific notation [Volts] 
         '''
-        return self.visa.query(f':CHAN{self._chan}:OFFSet?')
+        return float(self.visa.query(f':CHAN{self._chan}:OFFSet?'))
     @offset.setter
     def offset(self, offset_value:float):
+        # TODO limit check
         self.visa.write(f':CHAN{self._chan}:OFFSet {offset_value}')
         return
 
     @property
-    def range(self) -> str: 
+    def range(self) -> float: 
         '''
         Set or query the vertical range of the specified channel. The default unit is V.
 
@@ -118,12 +119,14 @@ class Rigol_ds1000z_Channel:
         return float(self.visa.query(f':CHAN{self._chan}:RANGe?'))
     @range.setter
     def range(self, vertical_range:float):
+        # TODO limit check
         self.visa.write(f':CHAN{self._chan}:RANGe {vertical_range}')
         return
     
     @property
-    def tcal(self) -> str: # RANGE in SCPI, avoid conflict with python range()
+    def delay_calibration_time(self) -> float: 
         '''
+        :CHANnel<n>:TCAL
         Set or query the delay calibration time of the specified channel to calibrate the zero offset
         of the corresponding channel. The default unit is s.
 
@@ -149,13 +152,13 @@ class Rigol_ds1000z_Channel:
         :CHANnel1:TCAL? /*The query returns 2.000000e-08*/
         '''
         return self.visa.query(f':CHAN{self._chan}:TCAL?')
-    @tcal.setter
-    def tcal(self, val:float):
+    @delay_calibration_time.setter
+    def delay_calibration_time(self, val:float):
         self.visa.write(f':CHAN{self._chan}:TCAL {val}')
         return
     
     @property
-    def scale(self) -> str:
+    def scale(self) -> float:
         '''
         Set or query the vertical scale of the specified channel. The default unit is V.
 
@@ -185,7 +188,7 @@ class Rigol_ds1000z_Channel:
         return
     
     @property
-    def probe(self) -> int:
+    def probe(self) -> float:
         '''
         Set or query the probe ratio of the specified channel.
 
@@ -197,12 +200,12 @@ class Rigol_ds1000z_Channel:
         '''
         return float(self.visa.query(f':CHAN{self._chan}:PROBe?'))
     @probe.setter
-    def probe(self, atten:int):
+    def probe(self, atten:float):
         self.visa.write(f':CHAN{self._chan}:PROBe {atten}')
         return
 
     @property
-    def units(self) -> str:
+    def units(self) -> ChannelUnits:
         '''
         Set or query the amplitude display unit of the specified channel.
 
@@ -213,7 +216,7 @@ class Rigol_ds1000z_Channel:
         '''
         return self.visa.query(f':CHAN{self._chan}:UNITs?')
     @units.setter
-    def units(self, units:str):
+    def units(self, units:ChannelUnits):
         self.visa.write(f':CHAN{self._chan}:UNITs {units}')
         return
     

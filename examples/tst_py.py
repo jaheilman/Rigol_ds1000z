@@ -46,4 +46,27 @@ try:
 except:
     print("VAL99 is NOT in MyStrEnum")
 
-x = my_method()
+
+
+class Outer(object):
+
+    def createInner(self):
+        return Outer.Inner(self)
+
+    def somemethod(self):
+        print("somemethod")
+
+    def anothermethod(self):
+        print("anothermethod")
+
+    class Inner(object):
+        def __init__(self, outer_instance):
+            self.outer_instance = outer_instance
+            self.outer_instance.somemethod()
+
+        def inner_method(self):
+            self.outer_instance.anothermethod()
+
+myOuter = Outer()
+myOuter.createInner()
+# myOuter.Inner.inner_method() # ??

@@ -9,6 +9,13 @@ class Rigol_ds1000z_Decoder:
         self.visa_resource = visa_resource
         self.visa = Rigol_visa(visa_resource)
         self._decoder = n_decoder
+        self.threshold = self.Threshold(visa_resource)
+        self.uart = self.UART(visa_resource)
+        self.i2c = self.I2C(visa_resource)
+        self.spi = self.SPI(visa_resource)
+        self.parallel = self.Parallel(visa_resource)
+
+
 
     @property
     def mode(self) -> DecoderMode:
@@ -74,7 +81,11 @@ class Rigol_ds1000z_Decoder:
         self.visa.write(f':DECoder{self._decoder}:POSition {position}')
         return
     
-    class threshold():
+    class Threshold():
+        def __init__(self, visa_resource):
+            self.visa_resource = visa_resource
+            self.visa = Rigol_visa(visa_resource)
+
         @property
         def chan1(self) -> float:
             '''
@@ -164,7 +175,11 @@ class Rigol_ds1000z_Decoder:
             self.visa.write(f':DECoder{self._decoder}:THREshold:AUTO {auto_on_off}')
             return
     
-    class config():
+    class Configure():
+        def __init__(self, visa_resource):
+            self.visa_resource = visa_resource
+            self.visa = Rigol_visa(visa_resource)
+            
         @property
         def label(self) -> OnOff:
             '''
@@ -256,7 +271,11 @@ class Rigol_ds1000z_Decoder:
 # ========                        UART                                     =========
 # ==================================================================================
 
-    class uart():
+    class UART():
+        def __init__(self, visa_resource):
+            self.visa_resource = visa_resource
+            self.visa = Rigol_visa(visa_resource)
+            
         def setup_uart(self, tx_chan:DecoderChannel, rx_chan:DecoderChannel, baud:int):
             '''
             Helper function to setup UART
@@ -391,7 +410,11 @@ class Rigol_ds1000z_Decoder:
 # ==================================================================================
 # ========                        I2C                                      =========
 # ==================================================================================
-    class i2c():
+    class I2C():
+        def __init__(self, visa_resource):
+            self.visa_resource = visa_resource
+            self.visa = Rigol_visa(visa_resource)
+            
         def setup_i2c(self, clock:DecoderChannel, data:DecoderChannel):
             self.i2c_clock = clock
             self.i2c_data  = data
@@ -442,7 +465,11 @@ class Rigol_ds1000z_Decoder:
 # ==================================================================================
 # ========                        SPI                                      =========
 # ==================================================================================
-    class spi():
+    class SPI():
+        def __init__(self, visa_resource):
+            self.visa_resource = visa_resource
+            self.visa = Rigol_visa(visa_resource)
+            
         def setup_spi(self, clock:DecoderChannel, miso:DecoderChannel, mosi:DecoderChannel, cs:DecoderChannel):
             self.spi_clock = clock
             self.spi_miso  = miso
@@ -623,7 +650,11 @@ class Rigol_ds1000z_Decoder:
 # ========                        PARALLEL                                 =========
 # ==================================================================================
 
-    class parallel():
+    class Parallel():
+        def __init__(self, visa_resource):
+            self.visa_resource = visa_resource
+            self.visa = Rigol_visa(visa_resource)
+            
         @property
         def clock(self) -> DecoderChannel:
             '''
