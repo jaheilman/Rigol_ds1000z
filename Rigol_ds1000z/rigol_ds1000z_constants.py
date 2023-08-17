@@ -12,7 +12,38 @@ def class_has_value(test_value, in_class) -> bool:
     values = set(item.value for item in in_class)
     return test_value in values
 
-class MeasureSources(StrEnum):
+class AcquisitionMode(StrEnum):
+    NORMAL = auto()
+    AVERAGES = auto()
+    PEAK = auto()
+    HIGH_RESOLUTION = "HResolution"
+
+
+class AnalogChannels(StrEnum):
+    CHAN1 = auto()
+    CHAN2 = auto()
+    CHAN3 = auto()
+    CHAN4 = auto()
+    MATH = auto()
+
+class AnalogSources(StrEnum):
+    CHAN1 = auto()
+    CHAN2 = auto()
+    CHAN3 = auto()
+    CHAN4 = auto()
+
+class ChannelCoupling(StrEnum):
+    AC = auto()
+    DC = auto()
+    GND = auto()
+
+class ChannelUnits(StrEnum):
+    VOLT = auto()
+    WATT = auto()
+    AMP  = auto()
+    UNKN = auto()
+
+class DecoderChannel(StrEnum):
     CHAN1 = auto()
     CHAN2 = auto()
     CHAN3 = auto()
@@ -35,26 +66,101 @@ class MeasureSources(StrEnum):
     D14 = auto()
     D15 = auto()
 
-class AnalogChannels(StrEnum):
+class DecoderFormat(StrEnum):
+    HEX = auto()
+    ASCII = auto()
+    DEC = auto()
+    BIN = auto()
+    LINE = auto()
+
+class DecoderMode(StrEnum):
+    PARALLEL = auto()
+    UART = auto()
+    SPI = auto()
+    IIC = auto()
+
+class Edge(StrEnum):
+    RISE = auto()
+    FALL = auto()
+    BOTH = auto()
+
+class Endianess(StrEnum):
+    LSB = auto()
+    MSB = auto()
+
+class FFTMode(StrEnum):
+    TRACE = "TRAC"
+    MEMORY = "MEM"
+
+class FFTUnits(StrEnum):
+    VRMS = auto()
+    DB = auto()
+
+class FFTWindows(StrEnum):
+    RECTANGLE = "RECT"
+    BLACKMAN = "BLAC"
+    HANNING = "HANN"
+    HAMMING = "HAMM"
+    FLATTOP = "FLAT"
+    TRIANGLE = "TRI"
+
+class FxOperations(StrEnum):
+    ADD = "ADD"
+    SUBTRACT = "SUBT"
+    MULTPLY = "MULT"
+    DIVIDE = "DIV"
+
+class I2CAddressMode(StrEnum):
+    NORMAL = auto()
+    RW = auto()
+
+class MathOperations(StrEnum):
+    ADD = auto()
+    SUBTRACT = auto()
+    MULTIPLY = auto()
+    DIVISION = auto()
+    AND = auto()
+    OR = auto()
+    XOR = auto()
+    NOT = auto()
+    FFT = auto()
+    INTG = auto()
+    DIFF = auto()
+    SQRT = auto()
+    LOG = auto()
+    LN = auto()
+    EXP = auto()
+    ABS = auto()
+    FILTER  = auto()
+
+class LogicSources(StrEnum):
     CHAN1 = auto()
     CHAN2 = auto()
     CHAN3 = auto()
     CHAN4 = auto()
-    MATH = auto()
+    D0 = auto()
+    D1 = auto()
+    D2 = auto()
+    D3 = auto()
+    D4 = auto()
+    D5 = auto()
+    D6 = auto()
+    D7 = auto()
+    D8 = auto()
+    D9 = auto()
+    D10 = auto()
+    D11 = auto()
+    D12 = auto()
+    D13 = auto()
+    D14 = auto()
+    D15 = auto()
 
-
-class MeasureStatisticsDisplay(StrEnum):
-    difference = "DIFF"
-    extremum = "EXTR"
-    DIFF = auto()
-    EXTR = auto()
-
-class MeasureStatisticsType(StrEnum):
-    MAXIMUM   = auto()
-    MINIMUM   = auto()
-    CURRENT   = auto()
-    AVERAGES  = auto()
-    DEVIATION = auto()
+class MathSources(StrEnum):
+    CHAN1 = auto()
+    CHAN2 = auto()
+    CHAN3 = auto()
+    CHAN4 = auto()
+    FX = auto()
 
 ## These from :MEAS:ADIS
 class MeasureItems(StrEnum):
@@ -64,6 +170,7 @@ class MeasureItems(StrEnum):
     ITEM4 = auto()
     ITEM5 = auto()
     ALL = auto()
+
 
 class Measurements(StrEnum):
     VMAX = auto()
@@ -104,24 +211,7 @@ class Measurements(StrEnum):
     PEDGES = auto()
     NEDGES = auto()
 
-class TriggerMode(StrEnum):
-    EDGE = auto()
-    PULSE = auto()
-    RUNT = auto()
-    WIND = auto()
-    NEDG = auto()
-    SLOPE = auto()
-    VIDEO = auto()
-    PATTERN = auto()
-    DELAY = auto()
-    TIMEOUT = auto()
-    DURATION = auto()
-    SHOLD = auto()
-    RS232 = auto()
-    IIC = auto()
-    SPI = auto()
-
-class WaveSource(StrEnum):
+class MeasureSources(StrEnum):
     CHAN1 = auto()
     CHAN2 = auto()
     CHAN3 = auto()
@@ -143,12 +233,20 @@ class WaveSource(StrEnum):
     D13 = auto()
     D14 = auto()
     D15 = auto()
-    MATH = auto()
 
-class WaveMode(StrEnum):
-    NORMAL = auto()
-    MAXIMUM = auto()
-    RAW = auto()
+class MeasureStatisticsDisplay(StrEnum):
+    difference = "DIFF"
+    extremum = "EXTR"
+    DIFF = auto()
+    EXTR = auto()
+
+class MeasureStatisticsType(StrEnum):
+    MAXIMUM   = auto()
+    MINIMUM   = auto()
+    CURRENT   = auto()
+    AVERAGES  = auto()
+    DEVIATION = auto()
+
 
 class MemoryDepth(StrEnum):
     AUTO           = 'AUTO'
@@ -178,21 +276,7 @@ class MemoryDepth(StrEnum):
     Digital_16Chan_6M   = '6000000'
     Digital_16Chan_12M  = '12000000'
 
-class StatisticsMode(StrEnum):
-    DIFFERENCE = "DIFF" 
-    EXTREMUM = "EXTR"
 
-class AcquisitionMode(StrEnum):
-    NORMAL = auto()
-    AVERAGES = auto()
-    PEAK = auto()
-    HIGH_RESOLUTION = "HResolution"
-
-class DecoderMode(StrEnum):
-    PARALLEL = auto()
-    UART = auto()
-    SPI = auto()
-    IIC = auto()
 
 class OnOff(Enum):
     ON = 1
@@ -202,34 +286,50 @@ class Polarity(StrEnum):
     POSITIVE = "POS"
     NEGATIVE = "NEG"
 
-class Endianess(StrEnum):
-    LSB = auto()
-    MSB = auto()
-
-class Edge(StrEnum):
+class SpiEdge(StrEnum):
     RISE = auto()
     FALL = auto()
-    BOTH = auto()
 
-class ChannelCoupling(StrEnum):
-    AC = auto()
-    DC = auto()
-    GND = auto()
+class SpiTimeout(StrEnum):
+    TIM = auto()
+    CS  = auto()
 
-class ChannelUnits(StrEnum):
-    VOLT = auto()
-    WATT = auto()
-    AMP  = auto()
-    UNKN = auto()
+class StatisticsMode(StrEnum):
+    DIFFERENCE = "DIFF" 
+    EXTREMUM = "EXTR"
 
-class DecoderFormat(StrEnum):
-    HEX = auto()
-    ASCII = auto()
-    DEC = auto()
-    BIN = auto()
-    LINE = auto()
+class TriggerMode(StrEnum):
+    EDGE = auto()
+    PULSE = auto()
+    RUNT = auto()
+    WIND = auto()
+    NEDG = auto()
+    SLOPE = auto()
+    VIDEO = auto()
+    PATTERN = auto()
+    DELAY = auto()
+    TIMEOUT = auto()
+    DURATION = auto()
+    SHOLD = auto()
+    RS232 = auto()
+    IIC = auto()
+    SPI = auto()
 
-class DecoderChannel(StrEnum):
+class UartStopBits(Enum):
+    Bits_1   = 1
+    Bits_1_5 = 1.5
+    Bits_2   = 2
+class UartParity(StrEnum):
+    NONE = auto()
+    EVEN = auto()
+    ODD = auto()
+
+class WaveMode(StrEnum):
+    NORMAL = auto()
+    MAXIMUM = auto()
+    RAW = auto()
+
+class WaveSource(StrEnum):
     CHAN1 = auto()
     CHAN2 = auto()
     CHAN3 = auto()
@@ -251,100 +351,5 @@ class DecoderChannel(StrEnum):
     D13 = auto()
     D14 = auto()
     D15 = auto()
+    MATH = auto()
 
-
-class DecoderEndian(StrEnum):
-    LSB = auto()
-    MSB = auto()
-
-class UartStopBits(Enum):
-    Bits_1   = 1
-    Bits_1_5 = 1.5
-    Bits_2   = 2
-class UartParity(StrEnum):
-    NONE = auto()
-    EVEN = auto()
-    ODD = auto()
-
-class I2CAddressMode(StrEnum):
-    NORMAL = auto()
-    RW = auto()
-
-
-class SpiEdge(StrEnum):
-    RISE = auto()
-    FALL = auto()
-
-class SpiTimeout(StrEnum):
-    TIM = auto()
-    CS  = auto()
-
-class MathOperations(StrEnum):
-    ADD = auto()
-    SUBTRACT = auto()
-    MULTIPLY = auto()
-    DIVISION = auto()
-    AND = auto()
-    OR = auto()
-    XOR = auto()
-    NOT = auto()
-    FFT = auto()
-    INTG = auto()
-    DIFF = auto()
-    SQRT = auto()
-    LOG = auto()
-    LN = auto()
-    EXP = auto()
-    ABS = auto()
-    FILTER  = auto()
-
-class MathSources(StrEnum):
-    CHAN1 = auto()
-    CHAN2 = auto()
-    CHAN3 = auto()
-    CHAN4 = auto()
-    FX = auto()
-
-class LogicSources(StrEnum):
-    CHAN1 = auto()
-    CHAN2 = auto()
-    CHAN3 = auto()
-    CHAN4 = auto()
-    D0 = auto()
-    D1 = auto()
-    D2 = auto()
-    D3 = auto()
-    D4 = auto()
-    D5 = auto()
-    D6 = auto()
-    D7 = auto()
-    D8 = auto()
-    D9 = auto()
-    D10 = auto()
-    D11 = auto()
-    D12 = auto()
-    D13 = auto()
-    D14 = auto()
-    D15 = auto()
-
-class FFTSources(StrEnum):
-    CHAN1 = auto()
-    CHAN2 = auto()
-    CHAN3 = auto()
-    CHAN4 = auto()
-
-class FFTWindows(StrEnum):
-    RECTANGLE = "RECT"
-    BLACKMAN = "BLAC"
-    HANNING = "HANN"
-    HAMMING = "HAMM"
-    FLATTOP = "FLAT"
-    TRIANGLE = "TRI"
-
-class FFTUnits(StrEnum):
-    VRMS = auto()
-    DB = auto()
-
-class FFTMode(StrEnum):
-    TRACE = "TRAC"
-    MEMORY = "MEM"

@@ -1,6 +1,7 @@
 from .rigol_visa import Rigol_visa
 from .rigol_ds1000z_constants import OnOff, MathOperations, MathSources, LogicSources, \
-    FFTSources, FFTWindows, FFTUnits, FFTMode
+    AnalogSources, FFTWindows, FFTUnits, FFTMode, FxOperations
+import math
 
 class Rigol_ds1000z_Math:
     '''
@@ -345,3 +346,179 @@ class Rigol_ds1000z_Math:
         def horizontal_mode(self, mode:FFTMode):
             self.visa.write(f':MATH:FFT:MODE {mode}')
             return
+        
+    class Option:
+        def __init__(self, visa:Rigol_visa):
+            self.visa = visa
+
+        @property
+        def start_point(self) -> int:
+            '''
+            :MATH:OPTion:STARt
+            Set or query the start point of the waveform math operation.
+
+            Range is 0 to endPoint-1.  The source selected is equally divided into 1200 parts 
+            horizontally, in which the leftmost is 0 and the rightmost is 1199.
+            
+            Invalid for FFT.
+            '''
+            return int(self.visa.query(':MATH:OPTion:STARt?'))
+        @start_point.setter
+        def start_point(self, start_pt:int):
+            self.visa.write(f':MATH:OPTion:STARt {start_pt}')
+            return
+    
+        @property
+        def end_point(self) -> int:
+            '''
+            :MATH:OPTion:END
+            Set or query the end point of the waveform math operation.
+
+            Range is startPoint+1 to 1199.  The source selected is equally divided into 1200 parts 
+            horizontally, in which the leftmost is 0 and the rightmost is 1199.
+            
+            Invalid for FFT.
+            '''
+            return int(self.visa.query(':MATH:OPTion:END?'))
+        @end_point.setter
+        def end_point(self, end_pt:int):
+            self.visa.write(f':MATH:OPTion:END {end_pt}')
+            return
+        
+        @property
+        def invert(self) -> OnOff:
+            '''
+            :MATH:OPTion:INVert
+            Enable or disable the inverted display mode of the operation result, 
+            or query the inverted display mode status of the operation result.
+            '''
+            return int(self.visa.query(':MATH:OPTion:END?'))
+        @invert.setter
+        def invert(self, invert:OnOff):
+            self.visa.write(f':MATH:OPTion:END {invert}')
+            return
+        
+        @property
+        def vscale_logic(self) -> float:
+            '''
+            :MATH:OPTion:SENSitivity
+            Set or query the sensitivity of the logic operation. The default unit is div (namely the
+            current vertical scale).
+
+            This command is only applicable to logic operations (A&&B, A||B, A^B, and !A)
+            '''
+            return float(self.visa.query(':MATH:OPTion:SENSitivity?'))
+        @vscale_logic.setter
+        def vscale_logic(self, vertical_scale:float):
+            vertical_scale = math.ceil(vertical_scale/0.08)
+            self.visa.write(f':MATH:OPTion:SENSitivity {vertical_scale}')
+            return
+        
+        
+        @property
+        def diff_smoothing_window(self) -> int:
+            '''
+            :MATH:OPTion:DIStance
+            Set or query the smoothing window width of differentiation operation (diff).
+
+            Range is 3 to 201
+
+            This command is only applicable to differentiation operation (diff).
+            '''
+            return int(self.visa.query(':MATH:OPTion:DIStance?'))
+        @diff_smoothing_window.setter
+        def diff_smoothing_window(self, window:int):
+            if window < 3: window = 3
+            if window > 201: window = 201
+            self.visa.write(f':MATH:OPTion:DIStance {window}')
+            return
+            
+        @property
+        def autoscale(self) -> OnOff:
+            '''
+            :MATH:OPTion:ASCale
+            Enable or disable the auto scale setting of the operation result or query the status of the
+            auto scale setting.
+            '''
+            return int(self.visa.query(':MATH:OPTion:ASCale?'))
+        @autoscale.setter
+        def autoscale(self, autoscaling:OnOff):
+            self.visa.write(f':MATH:OPTion:ASCale {autoscaling}')
+            return
+        
+                
+        @property
+        def threshold_A(self) -> float:
+            '''
+            :MATH:OPTion:THReshold1
+            Set or query the threshold level of source A in logic operations. The default unit is V.
+
+            (-4 x VerticalScale - VerticalOffset) to
+            ( 4 x VerticalScale - VerticalOffset)
+            The step is VerticalScale/50
+            '''
+            return float(self.visa.query(':MATH:OPTion:THReshold1?'))
+        @threshold_A.setter
+        def threshold_A(self, threshold:float):
+            self.visa.write(f':MATH:OPTion:THReshold1 {threshold}')
+            return
+                        
+        @property
+        def threshold_B(self) -> float:
+            '''
+            :MATH:OPTion:THReshold2
+            Set or query the threshold level of source A in logic operations. The default unit is V.
+
+            (-4 x VerticalScale - VerticalOffset) to
+            ( 4 x VerticalScale - VerticalOffset)
+            The step is VerticalScale/50
+            '''
+            return float(self.visa.query(':MATH:OPTion:THReshold2?'))
+        @threshold_B.setter
+        def threshold_B(self, threshold:float):
+            self.visa.write(f':MATH:OPTion:THReshold2 {threshold}')
+            return
+
+        @property
+        def fx_source_A(self) -> AnalogSources:
+            '''
+            :MATH:OPTion:FX:SOURce1
+            Set or query source A of the inner layer operation of compound operation.
+
+            <source> {CHANnel1|CHANnel2|CHANnel3|CHANnel4}
+            '''
+            return float(self.visa.query(':MATH:OPTion:FX:SOURce1?'))
+        @fx_source_A.setter
+        def fx_source_A(self, source:AnalogSources):
+            self.visa.write(f':MATH:OPTion:FX:SOURce1 {source}')
+            return
+        
+        @property
+        def fx_source_B(self) -> AnalogSources:
+            '''
+            :MATH:OPTion:FX:SOURce2
+            Set or query source B of the inner layer operation of compound operation.
+
+            <source> {CHANnel1|CHANnel2|CHANnel3|CHANnel4}
+            '''
+            return float(self.visa.query(':MATH:OPTion:FX:SOURce2?'))
+        @fx_source_B.setter
+        def fx_source_B(self, source:AnalogSources):
+            self.visa.write(f':MATH:OPTion:FX:SOURce2 {source}')
+            return
+        
+        
+        @property
+        def fx_operator(self) -> FxOperations:
+            '''
+            :MATH:OPTion:FX:OPERator
+            et or query the operator of the inner layer operation of compound operation.
+
+            <op> {ADD|SUBTract|MULTiply|DIVision}
+            '''
+            return float(self.visa.query(':MATH:OPTion:FX:SOURce2?'))
+        @fx_operator.setter
+        def fx_operator(self, op:FxOperations):
+            self.visa.write(f':MATH:OPTion:FX:SOURce2 {op}')
+            return
+
