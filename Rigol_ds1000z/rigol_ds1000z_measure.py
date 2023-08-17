@@ -104,7 +104,7 @@ class Rigol_ds1000z_Measure:
         channel at the same time. You can send the :MEASure:AMSource command to set
         the source of the all measurement function. 
         '''
-        return self.visa.query(f':MEAS:ADISplay?')
+        return int(self.visa.query(f':MEAS:ADISplay?'))
     @all_display.setter
     def all_display(self, display_all:OnOff):
         self.visa.write(f':MEAS:ADISplay {display_all}')

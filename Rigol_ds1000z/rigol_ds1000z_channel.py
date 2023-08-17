@@ -51,7 +51,7 @@ class Rigol_ds1000z_Channel:
 
         Returns 1 (ON) or 0 (OFF) 
         '''
-        return self.visa.query(f':CHAN{self._chan}:DISPplay?')
+        return int(self.visa.query(f':CHAN{self._chan}:DISPplay?'))
     @display.setter
     def display(self, chan_display:OnOff):
         self.visa.write(f':CHAN{self._chan}:DISPplay {chan_display}')

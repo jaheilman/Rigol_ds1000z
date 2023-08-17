@@ -169,7 +169,7 @@ class Rigol_ds1000z_Decoder:
             Turn on or off the auto threshold function of the analog channels, or query the status of
             the auto threshold function of the analog channels.
             '''
-            return (self.visa.query(f':DECoder{self._decoder}:THREshold:AUTO?'))
+            return int(self.visa.query(f':DECoder{self._decoder}:THREshold:AUTO?'))
         @auto.setter
         def auto(self, auto_on_off:OnOff):
             self.visa.write(f':DECoder{self._decoder}:THREshold:AUTO {auto_on_off}')
@@ -186,7 +186,7 @@ class Rigol_ds1000z_Decoder:
             :DECODER{0:1}:CONFIG:LABEL[?] <threshold>
             Turn on or off the label display function, or query the status of the label display function.
             '''
-            return (self.visa.query(f':DECoder{self._decoder}:CONFig:LABel?'))
+            return int(self.visa.query(f':DECoder{self._decoder}:CONFig:LABel?'))
         @label.setter
         def label(self, label:OnOff):
             self.visa.write(f':DECoder{self._decoder}:CONFig:LABel {label}')
@@ -200,7 +200,7 @@ class Rigol_ds1000z_Decoder:
             When this function is enabled, the bus will be displayed on the screen. You can send
             the :DECoder<n>:POSition command to adjust the vertical display position of the bus.
             '''
-            return (self.visa.query(f':DECoder{self._decoder}:CONFig:LINE?'))
+            return int(self.visa.query(f':DECoder{self._decoder}:CONFig:LINE?'))
         @line.setter
         def line(self, line:OnOff):
             self.visa.write(f':DECoder{self._decoder}:CONFig:LINE {line}')
@@ -215,7 +215,7 @@ class Rigol_ds1000z_Decoder:
             right of the label display (when the bus display is turned on). You can send
             the :DECoder<n>:FORMat command to set the bus display format.
             '''
-            return (self.visa.query(f':DECoder{self._decoder}:CONFig:FORMAT?'))
+            return int(self.visa.query(f':DECoder{self._decoder}:CONFig:FORMAT?'))
         @format.setter
         def format(self, format:OnOff):
             self.visa.write(f':DECoder{self._decoder}:CONFig:FORMAT {format}')
@@ -233,7 +233,7 @@ class Rigol_ds1000z_Decoder:
 
             This command is invalid in parallel decoding.
             '''
-            return (self.visa.query(f':DECoder{self._decoder}:CONFig:ENDIan?'))
+            return int(self.visa.query(f':DECoder{self._decoder}:CONFig:ENDIan?'))
         @endian.setter
         def endian(self, endian:OnOff):
             self.visa.write(f':DECoder{self._decoder}:CONFig:ENDIan {endian}')
@@ -248,7 +248,7 @@ class Rigol_ds1000z_Decoder:
             When this function is enabled, the width of each frame of data will be displayed at the
             right of the endian display (when the bus display is turned on).   
             '''
-            return (self.visa.query(f':DECoder{self._decoder}:CONFig:WIDth?'))
+            return int(self.visa.query(f':DECoder{self._decoder}:CONFig:WIDth?'))
         @width.setter
         def width(self, width:OnOff):
             self.visa.write(f':DECoder{self._decoder}:CONFig:WIDth {width}')
@@ -386,10 +386,10 @@ class Rigol_ds1000z_Decoder:
 
             stop_bit is 1, 1.5, or 2; Default 1.
             '''
-            return int(self.visa.query(f':DECoder{self._decoder}:UART:STOP?'))
+            return float(self.visa.query(f':DECoder{self._decoder}:UART:STOP?'))
         @stop_bit.setter
-        def stop_bit(self, stop_bit:UartStopBits):
-            self.visa.write(f':DECoder{self._decoder}:UART:STOP {stop_bit}')
+        def stop_bit(self, stop_bits:UartStopBits):
+            self.visa.write(f':DECoder{self._decoder}:UART:STOP {stop_bits}')
             return
         
 

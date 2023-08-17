@@ -38,7 +38,7 @@ class Rigol_ds1000z_Math:
         :MATH:DISPlay
         Enable or disable the math operation function or query the math operation status.
         '''
-        return (self.visa.query(':MATH:DISPlay?'))
+        return int(self.visa.query(':MATH:DISPlay?'))
     @display.setter
     def display(self, display_on_off:OnOff):
         self.visa.write(f':MATH:DISPlay {display_on_off}')
@@ -195,7 +195,7 @@ class Rigol_ds1000z_Math:
         Enable or disable the inverted display mode of the operation result, or query the inverted
         display mode status of the operation result.
         '''
-        return (self.visa.query(':MATH:INVert?'))
+        return int(self.visa.query(':MATH:INVert?'))
     @invert.setter
     def invert(self, invert:OnOff):
         self.visa.write(f':MATH:INVert {invert}')
@@ -246,7 +246,7 @@ class Rigol_ds1000z_Math:
             :MATH:FFT:SPLit
             Set or query the source of FFT operation/filter.
             '''
-            return (self.visa.query(':MATH:FFT:SPLit?'))
+            return int(self.visa.query(':MATH:FFT:SPLit?'))
         @split_display.setter
         def split_display(self, half_screen:OnOff):
             self.visa.write(f':MATH:FFT:SPLit {half_screen}')

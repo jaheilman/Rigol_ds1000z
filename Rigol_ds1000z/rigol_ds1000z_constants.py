@@ -315,10 +315,11 @@ class TriggerMode(StrEnum):
     IIC = auto()
     SPI = auto()
 
-class UartStopBits(Enum):
-    Bits_1   = 1
-    Bits_1_5 = 1.5
-    Bits_2   = 2
+class UartStopBits(StrEnum):
+    Bits_1   = "1"
+    Bits_1_5 = "1.5"
+    Bits_2   = "2"
+    
 class UartParity(StrEnum):
     NONE = auto()
     EVEN = auto()
