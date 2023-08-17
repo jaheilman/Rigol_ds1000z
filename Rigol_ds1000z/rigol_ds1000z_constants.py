@@ -197,6 +197,11 @@ class Endianess(StrEnum):
     LSB = auto()
     MSB = auto()
 
+class Edge(StrEnum):
+    RISE = auto()
+    FALL = auto()
+    BOTH = auto()
+
 
 class DecoderFormat(StrEnum):
     HEX = auto()
@@ -246,9 +251,6 @@ class I2CAddressMode(StrEnum):
     NORMAL = auto()
     RW = auto()
 
-class SpiPolarity(StrEnum):
-    POS = auto()
-    NEG = auto()
 
 class SpiEdge(StrEnum):
     RISE = auto()

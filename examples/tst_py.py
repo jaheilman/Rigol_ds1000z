@@ -46,4 +46,4 @@ try:
 except:
     print("VAL99 is NOT in MyStrEnum")
 
-x = my_method(MyStrEnum.VAL1)
+x = my_method()

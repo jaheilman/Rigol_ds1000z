@@ -37,3 +37,7 @@ print(dso.timebase.scale)
 dso.single
 data = dso.wave.get_wavedata(source=RigolConst.WaveSource.CHAN2, mode=RigolConst.WaveMode.NORMAL)
 print(data)
+
+
+dso.decoder[1].Parallel.clock_compenstation_time = 0
+dso.decoder[2].spi.clock = RigolConst.DecoderChannel.D1
