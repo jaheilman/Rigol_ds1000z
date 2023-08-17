@@ -3,7 +3,7 @@ from .rigol_ds1000z_constants import OnOff, MeasureItems, MeasureSources, Measur
 from typing import List
 
 
-class Rigol_ds1000z_Measure():
+class Rigol_ds1000z_Measure:
     def __init__(self, visa_resource):
         self.visa_resource = visa_resource
         self.visa = Rigol_visa(visa_resource)
@@ -143,7 +143,7 @@ class Rigol_ds1000z_Measure():
         self.visa.write(f':MEAS:AMSource {src_list_str}')
         return
 
-    class Setup():
+    class Setup:
         def __init__(self, visa_resource):
             self.visa_resource = visa_resource
             self.visa = Rigol_visa(visa_resource)
@@ -278,7 +278,7 @@ class Rigol_ds1000z_Measure():
             return
         
 
-    class Statistic():
+    class Statistic:
         def __init__(self, visa_resource):
             self.visa_resource = visa_resource
             self.visa = Rigol_visa(visa_resource)

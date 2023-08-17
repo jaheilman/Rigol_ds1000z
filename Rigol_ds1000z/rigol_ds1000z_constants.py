@@ -278,3 +278,73 @@ class SpiEdge(StrEnum):
 class SpiTimeout(StrEnum):
     TIM = auto()
     CS  = auto()
+
+class MathOperations(StrEnum):
+    ADD = auto()
+    SUBTRACT = auto()
+    MULTIPLY = auto()
+    DIVISION = auto()
+    AND = auto()
+    OR = auto()
+    XOR = auto()
+    NOT = auto()
+    FFT = auto()
+    INTG = auto()
+    DIFF = auto()
+    SQRT = auto()
+    LOG = auto()
+    LN = auto()
+    EXP = auto()
+    ABS = auto()
+    FILTER  = auto()
+
+class MathSources(StrEnum):
+    CHAN1 = auto()
+    CHAN2 = auto()
+    CHAN3 = auto()
+    CHAN4 = auto()
+    FX = auto()
+
+class LogicSources(StrEnum):
+    CHAN1 = auto()
+    CHAN2 = auto()
+    CHAN3 = auto()
+    CHAN4 = auto()
+    D0 = auto()
+    D1 = auto()
+    D2 = auto()
+    D3 = auto()
+    D4 = auto()
+    D5 = auto()
+    D6 = auto()
+    D7 = auto()
+    D8 = auto()
+    D9 = auto()
+    D10 = auto()
+    D11 = auto()
+    D12 = auto()
+    D13 = auto()
+    D14 = auto()
+    D15 = auto()
+
+class FFTSources(StrEnum):
+    CHAN1 = auto()
+    CHAN2 = auto()
+    CHAN3 = auto()
+    CHAN4 = auto()
+
+class FFTWindows(StrEnum):
+    RECTANGLE = "RECT"
+    BLACKMAN = "BLAC"
+    HANNING = "HANN"
+    HAMMING = "HAMM"
+    FLATTOP = "FLAT"
+    TRIANGLE = "TRI"
+
+class FFTUnits(StrEnum):
+    VRMS = auto()
+    DB = auto()
+
+class FFTMode(StrEnum):
+    TRACE = "TRAC"
+    MEMORY = "MEM"

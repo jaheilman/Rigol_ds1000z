@@ -81,7 +81,7 @@ class Rigol_ds1000z_Decoder:
         self.visa.write(f':DECoder{self._decoder}:POSition {position}')
         return
     
-    class Threshold():
+    class Threshold:
         def __init__(self, visa_resource):
             self.visa_resource = visa_resource
             self.visa = Rigol_visa(visa_resource)
@@ -175,7 +175,7 @@ class Rigol_ds1000z_Decoder:
             self.visa.write(f':DECoder{self._decoder}:THREshold:AUTO {auto_on_off}')
             return
     
-    class Configure():
+    class Configure:
         def __init__(self, visa_resource):
             self.visa_resource = visa_resource
             self.visa = Rigol_visa(visa_resource)
@@ -271,7 +271,7 @@ class Rigol_ds1000z_Decoder:
 # ========                        UART                                     =========
 # ==================================================================================
 
-    class UART():
+    class UART:
         def __init__(self, visa_resource):
             self.visa_resource = visa_resource
             self.visa = Rigol_visa(visa_resource)
@@ -410,7 +410,7 @@ class Rigol_ds1000z_Decoder:
 # ==================================================================================
 # ========                        I2C                                      =========
 # ==================================================================================
-    class I2C():
+    class I2C:
         def __init__(self, visa_resource):
             self.visa_resource = visa_resource
             self.visa = Rigol_visa(visa_resource)
@@ -465,7 +465,7 @@ class Rigol_ds1000z_Decoder:
 # ==================================================================================
 # ========                        SPI                                      =========
 # ==================================================================================
-    class SPI():
+    class SPI:
         def __init__(self, visa_resource):
             self.visa_resource = visa_resource
             self.visa = Rigol_visa(visa_resource)
@@ -650,7 +650,7 @@ class Rigol_ds1000z_Decoder:
 # ========                        PARALLEL                                 =========
 # ==================================================================================
 
-    class Parallel():
+    class Parallel:
         def __init__(self, visa_resource):
             self.visa_resource = visa_resource
             self.visa = Rigol_visa(visa_resource)

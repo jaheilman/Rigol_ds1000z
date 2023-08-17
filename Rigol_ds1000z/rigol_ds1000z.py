@@ -3,6 +3,7 @@ from .rigol_visa               import Rigol_visa
 from .rigol_ds1000z_acquire    import Rigol_ds1000z_Acquire
 from .rigol_ds1000z_channel    import Rigol_ds1000z_Channel
 from .rigol_ds1000z_decoder    import Rigol_ds1000z_Decoder
+from .rigol_ds1000z_math       import Rigol_ds1000z_Math
 from .rigol_ds1000z_measure    import Rigol_ds1000z_Measure
 from .rigol_ds1000z_trigger    import Rigol_ds1000z_Trigger
 from .rigol_ds1000z_timebase   import Rigol_ds1000z_Timebase
@@ -32,6 +33,7 @@ class Rigol_ds1000z:
         self.acquire    = Rigol_ds1000z_Acquire(self.visa_resource)
         self.channel    = [Rigol_ds1000z_Channel(self.visa_resource, c) for c in range(1, self._num_channels+1)]
         self.decoder    = [Rigol_ds1000z_Decoder(self.visa_resource, c) for c in range(1, self._num_decoders+1)]
+        self.math       = Rigol_ds1000z_Math(self.visa_resource)
         self.measure    = Rigol_ds1000z_Measure(self.visa_resource)
         self.timebase   = Rigol_ds1000z_Timebase(self.visa_resource)
         self.trigger    = Rigol_ds1000z_Trigger(self.visa_resource)
