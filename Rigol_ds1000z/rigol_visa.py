@@ -1,7 +1,9 @@
 
-import pyvisa as visa
+import pyvisa as _visa
+
 
 class Rigol_visa:
+    # def __init__(self, visa_resource:_visa.resources.Resource): # not sure this is the right type hint
     def __init__(self, visa_resource):
         self.visa_resource = visa_resource
         return

@@ -7,8 +7,8 @@ class Rigol_ds1000z_Measure:
     def __init__(self, visa_resource):
         self.visa_resource = visa_resource
         self.visa = Rigol_visa(visa_resource)
-        self.setup = self.Setup(visa_resource)
-        self.statistic = self.Statistic(visa_resource)
+        self.setup = self.Setup(self.visa)
+        self.statistic = self.Statistic(self.visa)
 
     @property
     def source(self) -> MeasureSources:
@@ -144,9 +144,8 @@ class Rigol_ds1000z_Measure:
         return
 
     class Setup:
-        def __init__(self, visa_resource):
-            self.visa_resource = visa_resource
-            self.visa = Rigol_visa(visa_resource)
+        def __init__(self, visa:Rigol_visa):
+            self.visa = visa
 
         @property
         def max_threshold(self) -> int:
@@ -279,9 +278,8 @@ class Rigol_ds1000z_Measure:
         
 
     class Statistic:
-        def __init__(self, visa_resource):
-            self.visa_resource = visa_resource
-            self.visa = Rigol_visa(visa_resource)
+        def __init__(self, visa:Rigol_visa):
+            self.visa = visa
 
         @property
         def display(self) -> str:

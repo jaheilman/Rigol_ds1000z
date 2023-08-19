@@ -30,7 +30,7 @@ class Rigol_ds1000z_Math:
     def __init__(self, visa_resource):
         self.visa_resource = visa_resource
         self.visa = Rigol_visa(visa_resource)
-        self.fft = self.FFT(visa_resource)
+        self.fft = self.FFT(self.visa)
 
     @property
     def display(self) -> OnOff:
@@ -212,9 +212,8 @@ class Rigol_ds1000z_Math:
         return
     
     class FFT:
-        def __init__(self, visa_resource):
-            self.visa_resource = visa_resource
-            self.visa = Rigol_visa(visa_resource)
+        def __init__(self, visa:Rigol_visa):
+            self.visa = visa
             
         @property
         def source(self) -> FFTSources:

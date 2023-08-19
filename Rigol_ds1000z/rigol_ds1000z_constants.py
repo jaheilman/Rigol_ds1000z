@@ -79,6 +79,25 @@ class DecoderMode(StrEnum):
     SPI = auto()
     IIC = auto()
 
+class DisplayGradingTime(StrEnum):
+    MIN = "MIN"
+    T100ms = "0.1"
+    T200ms = "0.2"
+    T500ms = "0.5"
+    T1s    = "1"
+    T5s    = "2"
+    T10s   = "10"
+    INFINITE = "INF"
+
+class DisplayGridTypes(StrEnum):
+    FULL = auto()
+    HALF = auto()
+    NONE = auto()
+
+class DisplayTypes(StrEnum):
+    VECTORS = "VECT"
+    DOTS = "DOT"
+
 class Edge(StrEnum):
     RISE = auto()
     FALL = auto()

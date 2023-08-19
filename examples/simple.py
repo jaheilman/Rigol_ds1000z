@@ -19,11 +19,13 @@ print(dso.measure.vpp(RigolConst.MeasureSources.CHAN1))
 x = dso.measure.setup.delay_source_a
 y = dso.measure.statistic.reset()
 dso.measure.clear = RigolConst.MeasureItems.ALL
-
+# Measurement without a helper
+duty_cycle = dso.measure.item_get(RigolConst.Measurements.PDUTY, RigolConst.MeasureSources.CHAN4)
 
 
 # Channels
 # channels 1-4 are accessed as an array
+dso.channel[1].display = RigolConst.OnOff.ON
 print(dso.channel[1].range)
 print(dso.channel[1].scale)
 dso.channel[1].probe = 1
