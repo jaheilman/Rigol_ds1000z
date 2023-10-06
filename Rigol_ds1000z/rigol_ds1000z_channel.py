@@ -13,6 +13,13 @@ class Rigol_ds1000z_Channel:
         self.visa = Rigol_visa(visa_resource)
         self._chan = channel
 
+    # def __getitem__(self, i):
+    #     assert 1 <= i <= 4, 'Not a valid channel.'
+    #     return self[i-1]
+
+    # def __len__(self):
+    #     return len(self._channels)
+
     @property
     def bandwidth_limit(self) -> str:
         '''
@@ -38,6 +45,7 @@ class Rigol_ds1000z_Channel:
         return self.visa.query(f':CHAN{self._chan}:COUPling?')
     @coupling.setter
     def coupling(self, coupling:ChannelCoupling):
+        cmd = f':CHAN{self._chan}:COUPling {coupling}'
         self.visa.write(f':CHAN{self._chan}:COUPling {coupling}')
         return
     
