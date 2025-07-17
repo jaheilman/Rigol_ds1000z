@@ -111,6 +111,12 @@ class FFTMode(StrEnum):
     TRACE = "TRAC"
     MEMORY = "MEM"
 
+class FFTSources(StrEnum):
+    CHAN1 = auto()
+    CHAN2 = auto()
+    CHAN3 = auto()
+    CHAN4 = auto()
+
 class FFTUnits(StrEnum):
     VRMS = auto()
     DB = auto()
@@ -343,6 +349,12 @@ class UartParity(StrEnum):
     NONE = auto()
     EVEN = auto()
     ODD = auto()
+
+class WaveFormat(StrEnum):
+    WORD = auto()
+    BYTE = auto()
+    ASCII = auto()
+
 
 class WaveMode(StrEnum):
     NORMAL = auto()

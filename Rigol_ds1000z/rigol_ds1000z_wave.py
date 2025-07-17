@@ -262,8 +262,7 @@ class Rigol_ds1000z_Wave():
                 else:
                     break
             mydata = self.visa.write_read_raw(':wav:data?')
-            mydata2 = self.data
-            data = self.data[11:]
+            data = mydata[11:]
             data = np.frombuffer(data, 'B')
             datas.append(data)
 

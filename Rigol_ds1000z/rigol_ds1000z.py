@@ -41,12 +41,12 @@ class Rigol_ds1000z:
         self.screenshot = Rigol_ds1000z_Screenshot(self.visa_resource)
 
 
-    def __getitem__(self, i):
-        assert 1 <= i <= 4, 'Not a valid channel.'
-        return self._num_channels[i-1]
+    # def __getitem__(self, i):
+    #     assert 1 <= i <= 4, 'Not a valid channel.'
+    #     return self.channel[i-1]
 
-    def __len__(self):
-        return len(self._num_channels)
+    # def __len__(self):
+    #     return len(self._num_channels)
 
     def _autodetect_visa(self, visa_resource):
         if visa_resource:
@@ -73,6 +73,9 @@ class Rigol_ds1000z:
         self.visa.write(':run')
 
     def stop(self):
+        """ STOP
+        Stops the acquisition
+        """
         self.visa.write(':stop')
 
     def single(self):
